@@ -36,12 +36,12 @@ function Start() {
 		let colstate = 0;
 		for(let i=0;i<oth.length;++i) {
 			const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
-			if(dist <= 0) {// colided
+			if(dist <= 0) {	// colided
 				colstate = 1;
 				break; 
 			} else if(dist <= 50) { //may collide
 			/*
-			** if we have already know snake's colided 
+			** if we already know snake's colided 
 			** don't reset it to maycolide 
 			*/
 				if(!colstate) colstate = 2;
@@ -81,7 +81,6 @@ function Start() {
 		/* Display snake on the felid */
 		this.show = () => {
 			var tmp_len = this.len - 1;
-			//const halfBlock = this.block/2;
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
 					ct.fillStyle = "red";
@@ -311,7 +310,7 @@ function Start() {
 		}
 
 		for(sno = 0; sno < smax;++sno) {
-			snakes[sno].move(snakes[sno].randMove());
+			snakes[sno].randMove();
 			// dettect collision
 			if(snakes[sno].colliide(snakes) || snakes[sno].colliide(player)) {
 				snakes[sno].die();
@@ -333,9 +332,7 @@ function Start() {
 			if(!done) {
 				for(sno = 0; sno < smax;++sno) {				
 				var dis = GetDistance(snakes[sno].trial[0].x,snakes[sno].trial[0].y,edible[i].x,edible[i].y);
-/*				var totmas = edible[i].mass + snakes[sno].block; using estimate instead for better performance 
-**				if(dis <= totmas) { 
-*/
+
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
 						edible.splice(i,1);
