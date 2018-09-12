@@ -34,7 +34,7 @@ function Start() {
 	// check the whole trial for collision
 	function CheckTrial(me,oth,block) {
 		let colstate = 0;
-		for(let i=0;i<oth.length;++i) {
+		for(let i=0,n = oth.length;i!=n;++i) {
 			const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
 			if(dist <= 0) {	// colided
 				colstate = 1;
@@ -108,7 +108,7 @@ function Start() {
 					this.trial[0].x = this.x;
 					this.trial[0].y = this.y;
 			
-				for(var i = this.len-1;i > 0;+--i) {
+				for(var i = this.len-1;i > 0;--i) {
 					this.trial[i].x = this.trial[i-1].x;
 					this.trial[i].y = this.trial[i-1].y;
 				}
@@ -184,7 +184,7 @@ function Start() {
 			}
 			
 			this.colliide = (others) => {
-				for(let i=0;i<others.length;++i) {
+				for(let i=0,n = others.length;i<n;++i) {
 					const ret = CheckTrial(this.trial[0],others[i].trial,this.block);
 					if(this === others[i]) continue;
 					if(ret === 1) {
@@ -301,12 +301,13 @@ function Start() {
 			}
 		}
 		
-		for(var i=0;i<edible.length;++i) {
+		for(var i=0,n = edible.length;i<n;++i) {
 				for(sno = 0; sno < smax;++sno) {				
 				const dis = GetDistance(snakes[sno].trial[0].x,snakes[sno].trial[0].y,edible[i].x,edible[i].y);
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
 						edible.splice(i,1);
+						n = edible.length;
 						break;
 					}
 				}
