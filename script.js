@@ -33,11 +33,21 @@ function Start() {
 	
 	// check the whole trial for collision
 	function CheckTrial(me,oth,block) {
+		let colstate = 0;
 		for(let i=0;i<oth.length;++i) {
-			if(GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block <= 0) 
-					return true;
+			const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
+			if(dist <= 0) {// colided
+				colstate = 1;
+				break; 
+			} else if(dist <= 50) { //may collide
+			/*
+			** if we have already know snake's colided 
+			** don't reset it to maycolide 
+			*/
+				if(!colstate) colstate = 2;
+			}
 		}
-		return false;
+		return colstate;
 	}
 	
 	// Snake Object Defination
@@ -150,6 +160,7 @@ function Start() {
 				} else { 
 					this.count++;
 				}
+				
 				switch(this.mv) {
 					case 1: this.ret = 'left'; break;
 					case 2: this.ret = 'right'; break;
@@ -181,21 +192,27 @@ function Start() {
 			}
 			
 			this.colliide = (others) => {
-				if(others.length === undefined) {
-					if(others.trial.x !== -1) {
-						if(CheckTrial(this.trial[0],others.trial,this.block)) {
+				if(others.length === undefined) { //if recived value is player
+					if(others.trial.x !== -1) { // check if player is alive before comparasion
+					const ret = CheckTrial(this.trial[0],others.trial,this.block); 
+						if(ret === 1) { 
 							return true;				
+						} else if (ret === 2) {
+							// TODO: Avoid Collision
 						}
 					}
 				} else {
 					for(let i=0;i<others.length;++i) {
+						const ret = CheckTrial(this.trial[0],others[i].trial,this.block);
 						if(this === others[i]) continue;
-						if(CheckTrial(this.trial[0],others[i].trial,this.block)) {
+						if(ret === 1) {
 							return true;
+						} else if(ret === 2) {
+							// TODO: Avoid Collision
 						}
 					}
-					return false;
 				}
+					return false;
 			}
 			
 			this.die = () => {
