@@ -40,11 +40,7 @@ function Start() {
 				colstate = 1;
 				break; 
 			} else if(dist <= 50) { //may collide
-			/*
-			** if we already know snake's colided 
-			** don't reset it to maycolide 
-			*/
-				if(!colstate) colstate = 2;
+				colstate = 2;
 			}
 		}
 		return colstate;
