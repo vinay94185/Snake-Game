@@ -47,7 +47,7 @@ function Start() {
 	}
 	
 	// Snake Object Defination
-	function snake(x,y,len) {
+	function snake(x,y,len,isPlayer) {
 		this.score = 0;
 		this.speed = 2.5;
 		this.x = x;
@@ -58,6 +58,7 @@ function Start() {
 		this.halfblock = this.block/2;
 		this.quaterblock = this.block/4;
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
+		this.isPlayer = isPlayer;
 
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 		this.count = 0; //counter for max count
@@ -98,9 +99,7 @@ function Start() {
 				case 'up': vy = -this.speed; break;
 				case 'down': vy = this.speed; break;
 			}
-			/* add new element with new cordinate for snake head*/
 
-			//new algorithim in trial
 				this.x += vx;
 				this.y += vy;
 			
@@ -131,7 +130,6 @@ function Start() {
 			} else if (this.y < 0) {
 				this.y = WindowHeight;
 			}
-//			this.trial.pop(); // remove last element as it's unnessary now
 			this.show(); // since snake is moved display it on new position
 		}
 		
@@ -166,7 +164,6 @@ function Start() {
 			}
 						
 			this.eat = (mass) => {
-			if(this === player)
 			if(Math.floor((this.score + mass)/50) > Math.floor(this.score/50)) {
 			this.len += 1;//mass;
 			this.score += mass;
@@ -187,27 +184,16 @@ function Start() {
 			}
 			
 			this.colliide = (others) => {
-				if(others.length === undefined) { //if recived value is player
-					if(others.trial.x !== -1) { // check if player is alive before comparasion
-					const ret = CheckTrial(this.trial[0],others.trial,this.block); 
-						if(ret === 1) { 
-							return true;				
-						} else if (ret === 2) {
-							// TODO: Avoid Collision
-						}
-					}
-				} else {
-					for(let i=0;i<others.length;++i) {
-						const ret = CheckTrial(this.trial[0],others[i].trial,this.block);
-						if(this === others[i]) continue;
-						if(ret === 1) {
-							return true;
-						} else if(ret === 2) {
-							// TODO: Avoid Collision
-						}
+				for(let i=0;i<others.length;++i) {
+					const ret = CheckTrial(this.trial[0],others[i].trial,this.block);
+					if(this === others[i]) continue;
+					if(ret === 1) {
+						return true;
+					} else if(ret === 2) {
+						// TODO: Avoid Collision
 					}
 				}
-					return false;
+				return false;
 			}
 			
 			this.die = () => {
@@ -239,7 +225,7 @@ function Start() {
 	var snakes = new Array();
 	const MaxSnakes = 7; // max number of snake's
 	for(var i = 0;i<MaxSnakes ;++i) {
-		newSnake();
+		newSnake(false);
 	}
 	
 	/* Start Button for game */
@@ -255,14 +241,12 @@ function Start() {
 		frame = requestAnimationFrame(menu);
 	})();
 	
-	var player = new snake(80,30,10);
 	var playerGo = 'right';
 	var edible = new Array();
 	var gameon = false;
 	var sno = 0;
 	var smax = 4,done = false;
 	var name;
-	
 	/*
 	** Function that beigin's the game and closes the menu
 	** TODO: Everything 
@@ -274,70 +258,58 @@ function Start() {
 		cancelAnimationFrame(frame);
 		gameon = true;
 		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
-		else while(snakes.length != smax) newSnake();
+		else while(snakes.length != smax) newSnake(false);
 		setInterval(setfood,500); 
+		newSnake(true);
+		++smax;
 		ingame();
 		} else {
 			alert('Please Enter Yout Name');
 		}
-	}
-	
 
+	}
+
+	var score = 0;
 	function ingame() {
 		ct.clearRect(0,0,WindowWidth,WindowHeight);
 		displayScore();
-		edible.forEach( food => {food.show()} );
+		edible.forEach( food => {food.show()} ); // display food
 		
-		if(gameon) {
-		// dettect collision for player
-		if(player.colliide(snakes)) {
-			player.die();
-			gameon = false;
-			player.trial = undefined;
-			player.trial = new Array(new trial());
-			player.trial.x = -1;
-			player.trial.y = -1;
-		} else {
-			player.move(playerGo);
-			player.name(name);
-		}
-		} else {
+		if(!gameon) {
 			gameover();
 		}
 
 		for(sno = 0; sno < smax;++sno) {
-			snakes[sno].randMove();
+			if(snakes[sno].isPlayer) { 
+				snakes[sno].move(playerGo);
+				snakes[sno].name(name);
+				score = snakes[sno].score;
+			} else { 
+				snakes[sno].randMove();
+			}
 			// dettect collision
-			if(snakes[sno].colliide(snakes) || snakes[sno].colliide(player)) {
+			if(snakes[sno].colliide(snakes)) {
+			if(snakes[sno].isPlayer) {
 				snakes[sno].die();
+				gameon = false;
+			} else {
+				snakes[sno].die();
+			}
 				snakes.splice(sno,1);
-				newSnake();
+				newSnake(false);
 				--sno;
 			}
 		}
 		
 		for(var i=0;i<edible.length;++i) {
-			var dis = GetDistance(player.trial[0].x,player.trial[0].y,edible[i].x,edible[i].y);
-			var totmas = edible[i].mass + player.block;
-			if(dis <= totmas) {
-				player.eat(edible[i].mass);
-				edible.splice(i,1);
-				done = true;
-			}			
-			
-			if(!done) {
 				for(sno = 0; sno < smax;++sno) {				
-				var dis = GetDistance(snakes[sno].trial[0].x,snakes[sno].trial[0].y,edible[i].x,edible[i].y);
-
+				const dis = GetDistance(snakes[sno].trial[0].x,snakes[sno].trial[0].y,edible[i].x,edible[i].y);
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
 						edible.splice(i,1);
-						done = true;
 						break;
 					}
 				}
-			}
-			done = false;
 		}	
 		requestAnimationFrame(ingame);		
 	}
@@ -370,11 +342,11 @@ function Start() {
 			return Math.sqrt((disX * disX) + (disY*disY));
 	}
 	
-	function newSnake() {
+	function newSnake(isPlayer) {
 		x = Math.floor(Math.random() * WindowWidth);
 		y = Math.floor(Math.random() * WindowHeight);
 		len = Math.floor((Math.random() * 20) + 10);
-		snakes.push(new snake(x,y,len)); // make snake object
+		snakes.push(new snake(x,y,len,isPlayer)); // make snake object
 	}
 	
 	function gameover() {
@@ -386,7 +358,7 @@ function Start() {
 	function displayScore() {
 		ct.fillStyle = "Grey";
 		ct.font = "20px Arial";
-		ct.fillText('Score : ' + player.score,20,50);
+		ct.fillText('Score : ' + score,20,50);
 	}
 	
 }
