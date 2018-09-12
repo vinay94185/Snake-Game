@@ -133,7 +133,8 @@ function Start() {
 		// display the name of the player on screen
 		this.name = (name) => {
 			ct.font = "20px Arial";
-			ct.fillText(name,this.trial[0].x,this.trial[0].y);
+			ct.fillStyle = "black";
+			ct.fillText(name,this.trial[0].x+10,this.trial[0].y);
 		}			
 		
 			/* Function to move the snake randomly */
