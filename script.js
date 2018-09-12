@@ -26,13 +26,13 @@ function Start() {
 		colors.push("#0F5E8C"); 
 	
 	// A Structure to store x and y cordnate's effectively
-	function trial(x = 0, y = 0) {
+	function trail(x = 0, y = 0) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	// check the whole trial for collision
-	function CheckTrial(me,oth,block) {
+	// check the whole trail for collision
+	function Checktrail(me,oth,block) {
 		let colstate = 0;
 		for(let i=0,n = oth.length;i!=n;++i) {
 			const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
@@ -52,7 +52,7 @@ function Start() {
 		this.speed = 2.5;
 		this.x = x;
 		this.y = y;
-		this.trial = []; // tail
+		this.trail = []; // tail
 		this.len = len;// * this.speed; // length of tail in begnining
 		this.block = 18; // size of snake block's
 		this.halfblock = this.block/2;
@@ -70,9 +70,9 @@ function Start() {
 		** TODO : Direction randomization
 		*/
 		for(var i = 0;i<this.len;++i) {
-			this.trial[i] = new trial();
-			this.trial[i].x = x - (this.quaterblock * i);
-			this.trial[i].y = y;
+			this.trail[i] = new trail();
+			this.trail[i].x = x - (this.quaterblock * i);
+			this.trail[i].y = y;
 		}
 		
 		/* Display snake on the felid */
@@ -81,10 +81,10 @@ function Start() {
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
 					ct.fillStyle = "red";
-					ct.fillRect(this.trial[i].x - this.halfblock,this.trial[i].y - this.halfblock,this.block,this.block);
+					ct.fillRect(this.trail[i].x - this.halfblock,this.trail[i].y - this.halfblock,this.block,this.block);
 				} else {
 					ct.fillStyle = this.color;		
-					ct.fillRect(this.trial[i].x - this.halfblock,this.trial[i].y - this.halfblock,this.block,this.block);	
+					ct.fillRect(this.trail[i].x - this.halfblock,this.trail[i].y - this.halfblock,this.block,this.block);	
 				}
 			}
 		}
@@ -104,13 +104,13 @@ function Start() {
 				this.y += vy;
 			
 			// reduce the drawing and x/y cordinates storage load
-				if(GetDistance(this.x,this.y,this.trial[0].x,this.trial[0].y) >= this.quaterblock) {
-					this.trial[0].x = this.x;
-					this.trial[0].y = this.y;
+				if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.quaterblock) {
+					this.trail[0].x = this.x;
+					this.trail[0].y = this.y;
 			
 				for(var i = this.len-1;i > 0;--i) {
-					this.trial[i].x = this.trial[i-1].x;
-					this.trial[i].y = this.trial[i-1].y;
+					this.trail[i].x = this.trail[i-1].x;
+					this.trail[i].y = this.trail[i-1].y;
 				}
 			}
 			
@@ -137,7 +137,7 @@ function Start() {
 		this.name = (name) => {
 			ct.font = "20px Arial";
 			ct.fillStyle = "black";
-			ct.fillText(name,this.trial[0].x+10,this.trial[0].y);
+			ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
 		}			
 		
 			/* Function to move the snake randomly */
@@ -178,14 +178,14 @@ function Start() {
 						case 'up': vy = -this.speed; break;
 						case 'down': vy = this.speed; break;
 					}	
-						this.trial.unshift(new trial(this.trial[0].x + vx,this.trial[0].y + vy));
+						this.trail.unshift(new trail(this.trail[0].x + vx,this.trail[0].y + vy));
 			//	}		
 				} else { this.score += mass; }
 			}
 			
 			this.colliide = (others) => {
 				for(let i=0,n = others.length;i<n;++i) {
-					const ret = CheckTrial(this.trial[0],others[i].trial,this.block);
+					const ret = Checktrail(this.trail[0],others[i].trail,this.block);
 					if(this === others[i]) continue;
 					if(ret === 1) {
 						return true;
@@ -197,9 +197,9 @@ function Start() {
 			}
 			
 			this.die = () => {
-				this.trial.forEach (trial => {
-					const x = trial.x + (Math.random() * this.block);
-					const y = trial.y + (Math.random() * this.block);
+				this.trail.forEach (trail => {
+					const x = trail.x + (Math.random() * this.block);
+					const y = trail.y + (Math.random() * this.block);
 					setfood(x,y);
 				});
 
@@ -303,7 +303,7 @@ function Start() {
 		
 		for(var i=0,n = edible.length;i<n;++i) {
 				for(sno = 0; sno < smax;++sno) {				
-				const dis = GetDistance(snakes[sno].trial[0].x,snakes[sno].trial[0].y,edible[i].x,edible[i].y);
+				const dis = GetDistance(snakes[sno].trail[0].x,snakes[sno].trail[0].y,edible[i].x,edible[i].y);
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
 						edible.splice(i,1);
