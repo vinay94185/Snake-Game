@@ -11,14 +11,14 @@ function Start() {
 	** Array of color's for snake's 
 	** And for food.
 	*/
-	var Snakecolors = new Array();
+	var Snakecolors = [];
 		Snakecolors.push("#58B7B8");
 		Snakecolors.push("#F8CE3D");
 		Snakecolors.push("#DF6127");
 		Snakecolors.push("#FE7F2D");
 		Snakecolors.push("#12403E");
 	
-	var colors = new Array();
+	var colors = [];
 		colors.push("#E23A59"); 
 		colors.push("#44ADAD"); 
 		colors.push("#3E506B"); 
@@ -52,7 +52,7 @@ function Start() {
 		this.speed = 2.5;
 		this.x = x;
 		this.y = y;
-		this.trial = new Array(); // tail
+		this.trial = []; // tail
 		this.len = len;// * this.speed; // length of tail in begnining
 		this.block = 18; // size of snake block's
 		this.halfblock = this.block/2;
@@ -222,7 +222,7 @@ function Start() {
 	}
 	
 	var x,y,len; // will be used initilize snake's position's
-	var snakes = new Array();
+	var snakes = [];
 	const MaxSnakes = 7; // max number of snake's
 	for(var i = 0;i<MaxSnakes ;++i) {
 		newSnake(false);
@@ -242,7 +242,7 @@ function Start() {
 	})();
 	
 	var playerGo = 'right';
-	var edible = new Array();
+	var edible = [];
 	var gameon = false;
 	var sno = 0;
 	var smax = 4,done = false;
