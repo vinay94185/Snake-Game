@@ -339,7 +339,7 @@ function Start() {
 		
 		for(var i=0,n = edible.length;i<n;++i) {
 				for(sno = 0; sno < smax;++sno) {				
-				const dis = GetDistance(snakes[sno].trail[0].x,snakes[sno].trail[0].y,edible[i].x,edible[i].y);
+				const dis = GetDistance(snakes[sno].x,snakes[sno].y,edible[i].x,edible[i].y);
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
 						edible.splice(i,1);
