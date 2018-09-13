@@ -82,11 +82,17 @@ function Start() {
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
 					ct.fillStyle = "red";
-					ct.fillRect(this.trail[i].x - this.halfblock,this.trail[i].y - this.halfblock,this.block,this.block);
+					ct.beginPath();
+					ct.arc(this.trail[i].x,this.trail[i].y,this.halfblock,0,2*Math.PI);
+					ct.fill();
+					ct.closePath();
+					ct.beginPath();
 				} else {
-					ct.fillStyle = this.color;		
-					ct.fillRect(this.trail[i].x - this.halfblock,this.trail[i].y - this.halfblock,this.block,this.block);	
+					ct.arc(this.trail[i].x,this.trail[i].y,this.halfblock,0,2*Math.PI);
 				}
+					ct.fillStyle = this.color;		
+					ct.fill();
+					ct.closePath();
 			}
 		}
 		
@@ -231,6 +237,7 @@ function Start() {
 			ct.arc(this.x,this.y,this.mass,0,2*Math.PI);
 			ct.fillStyle = this.color;
 			ct.fill();
+			ct.closePath();
 		}
 	}
 	
