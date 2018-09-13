@@ -64,6 +64,7 @@ function Start() {
 		this.count = 0; //counter for max count
 		this.mv = Math.floor((Math.random() * 4)+1); // random move
 		this.ret = undefined; // returnd direction will be stored here
+		this.DirAvoid = true;
 		
 		/*
 		** Set the Cordinate's of the snake
@@ -103,7 +104,7 @@ function Start() {
 				this.x += vx;
 				this.y += vy;
 			
-			// reduce the drawing and x/y cordinates storage load
+				// reduce the drawing and x/y cordinates storage load
 				if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.quaterblock) {
 					this.trail[0].x = this.x;
 					this.trail[0].y = this.y;
@@ -150,6 +151,7 @@ function Start() {
 				if(this.count > this.countMax) {
 					this.mv = Math.floor((Math.random() * 4)+1);
 					this.count = 0;
+					this.DirAvoid = true;
 				} else { 
 					this.count++;
 				}
@@ -159,7 +161,8 @@ function Start() {
 					case 2: this.ret = 'right'; break;
 					case 3: this.ret = 'up'; break;
 					case 4: this.ret = 'down'; break;
-				}
+				} 
+
 				this.move(this.ret);
 			}
 						
@@ -190,7 +193,7 @@ function Start() {
 					if(ret === 1) {
 						return true;
 					} else if(ret === 2) {
-						// TODO: Avoid Collision
+						if(this.DirAvoid)this.avoid();
 					}
 				}
 				return false;
@@ -204,7 +207,17 @@ function Start() {
 				});
 
 			}
-		
+			this.avoid = () => {
+				if(this.isPlayer) {
+						return 0;
+				} else {
+					this.DirAvoid = false;
+					if(this.ret == 'left') this.mv = 2;
+					if(this.ret == 'right') this.mv = 1;
+					if(this.ret == 'up') this.mv = 4;
+					if(this.ret == 'down') this.mv = 3;
+				}
+			}
 	} // end snake object
 	
 	/*food object*/
