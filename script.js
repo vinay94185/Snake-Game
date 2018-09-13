@@ -294,8 +294,19 @@ function Start() {
 
 	}
 
-	var score = 0;
+	let score = 0;
+	let frames = 0;
+	let fps = 0;
+	
+	function Resetfps() {
+		fps = frames;
+		frames = 0;
+	}
+	setInterval(Resetfps,1000);
+
+	
 	function ingame() {
+		++frames;
 		ct.clearRect(0,0,WindowWidth,WindowHeight);
 		displayScore();
 		edible.forEach( food => {food.show()} ); // display food
@@ -391,6 +402,7 @@ function Start() {
 		ct.fillStyle = "Grey";
 		ct.font = "20px Arial";
 		ct.fillText('Score : ' + score,20,50);
+		ct.fillText('fps : ' + fps,WindowWidth - 100,50);
 	}
-	
+		
 }
