@@ -3,6 +3,7 @@ window.addEventListener("load",Start);
 function Start() {
 	var WindowWidth = window.innerWidth;
 	var WindowHeight = window.innerHeight;
+	let dash = false;
 	var Screen = document.getElementById('gameScreen');
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
@@ -51,6 +52,7 @@ function Start() {
 	function snake(x,y,len,isPlayer) {
 		this.score = 0;
 		this.speed = 2;
+		this.curSpeed = this.speed ;
 		this.x = x;
 		this.y = y;
 		this.trail = []; // tail
@@ -100,11 +102,14 @@ function Start() {
 		this.move = (str) => {
 			var vx = 0,vy = 0;
 			/* check direction */
+			if(dash && this.isPlayer) this.curSpeed = this.speed * 2;
+			else this.curSpeed = this.speed;
+			
 			switch(str) {
-				case 'right': vx = this.speed; break;
-				case 'left': vx = -this.speed; break;
-				case 'up': vy = -this.speed; break;
-				case 'down': vy = this.speed; break;
+				case 'right': vx = this.curSpeed; break;
+				case 'left': vx = -this.curSpeed; break;
+				case 'up': vy = -this.curSpeed; break;
+				case 'down': vy = this.curSpeed; break;
 			}
 
 				this.x += vx;
@@ -199,7 +204,7 @@ function Start() {
 					if(ret === 1) {
 						return true;
 					} else if(ret === 2) {
-						if(this.DirAvoid)this.avoid();
+						if(this.DirAvoid) this.avoid();
 					}
 				}
 				return false;
@@ -336,6 +341,7 @@ function Start() {
 	}
 
 	window.addEventListener('keydown',checkkey);
+	window.addEventListener('keyup',keyreset);
 	
 	function checkkey(keyboard) {
 		switch(keyboard.key) {
@@ -344,7 +350,12 @@ function Start() {
 			case 'ArrowUp': playerGo = 'up'; break;
 			case 'ArrowDown': playerGo = 'down'; break;
 			case 'Enter' : beginGame(); break;
+			case ' ' : dash = true; break; // spacebar
 		}
+	}
+	
+	function keyreset(keyboard) {
+		if(keyboard.key == ' ') dash = false;
 	}
 	
 	function setfood(x = 0,y = 0) {
