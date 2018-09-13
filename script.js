@@ -56,7 +56,7 @@ function Start() {
 		this.x = x;
 		this.y = y;
 		this.trail = []; // tail
-		this.len = len;// * this.speed; // length of tail in begnining
+		this.len = len; // length of tail in begnining
 		this.block = 9; // size of snake block's
 		this.halfblock = Math.floor(this.block/2);
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
@@ -65,7 +65,7 @@ function Start() {
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 		this.count = 0; //counter for max count
 		this.mv = Math.floor((Math.random() * 4)+1); // random move
-		this.ret = undefined; // returnd direction will be stored here
+		this.ret = undefined; // returned direction will be stored here
 		this.DirAvoid = true;
 		
 		/*
@@ -179,11 +179,10 @@ function Start() {
 						
 			this.eat = (mass) => {
 			if(Math.floor((this.score + mass)/50) > Math.floor(this.score/50)) {
-			this.len += 1;//mass;
+			this.len += 1;
 			this.score += mass;
 			
 			var vx,vy;
-	//			for(var i=0;i<mass;++i) {
 					vx = 0;
 					vy = 0;
 					switch(this.ret) {
@@ -193,7 +192,6 @@ function Start() {
 						case 'down': vy = this.speed; break;
 					}	
 						this.trail.unshift(new trail(this.trail[0].x + vx,this.trail[0].y + vy));
-			//	}		
 				} else { this.score += mass; }
 			}
 			
@@ -274,7 +272,6 @@ function Start() {
 	var name;
 	/*
 	** Function that beigin's the game and closes the menu
-	** TODO: Everything 
 	*/	
 	function beginGame() {
 		if(document.querySelector('.form input').value != '') {
