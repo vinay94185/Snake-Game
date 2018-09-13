@@ -79,6 +79,7 @@ function Start() {
 		/* Display snake on the felid */
 		this.show = () => {
 			var tmp_len = this.len - 1;
+			ct.fillStyle = this.color;
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
 					ct.fillStyle = "red";
@@ -86,7 +87,6 @@ function Start() {
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					ct.fill();
 					ct.closePath();
-					ct.fillStyle = this.color;		
 				} else {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
@@ -294,7 +294,7 @@ function Start() {
 		ct.clearRect(0,0,WindowWidth,WindowHeight);
 		displayScore();
 		edible.forEach( food => {food.show()} ); // display food
-		
+
 		if(!gameon) {
 			gameover();
 		}
