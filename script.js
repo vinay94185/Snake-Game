@@ -337,7 +337,7 @@ function Start() {
 					}
 				}
 		}	
-		requestAnimationFrame(ingame);		
+		frame = requestAnimationFrame(ingame);		
 	}
 
 	window.addEventListener('keydown',checkkey);
