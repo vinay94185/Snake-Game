@@ -7,6 +7,7 @@ function Start() {
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
 	const ct = Screen.getContext("2d");
+	const circ = 2*Math.PI;
 	/* 
 	** Array of color's for snake's 
 	** And for food.
@@ -83,13 +84,13 @@ function Start() {
 				if(i === 0) {
 					ct.fillStyle = "red";
 					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,2*Math.PI);
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					ct.fill();
 					ct.closePath();
 					ct.fillStyle = this.color;		
 				} else {
 					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,2*Math.PI);
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					ct.fill();
 					ct.closePath();			
 				}
@@ -233,9 +234,9 @@ function Start() {
 		this.mass = Math.floor((Math.random() * 4)+ 3);
 		this.color = colors[Math.floor(Math.random() * colors.length)];
 		this.show = () => {
-			ct.beginPath();
-			ct.arc(this.x,this.y,this.mass,0,2*Math.PI);
 			ct.fillStyle = this.color;
+			ct.beginPath();
+			ct.arc(this.x,this.y,this.mass,0,circ);
 			ct.fill();
 			ct.closePath();
 		}
