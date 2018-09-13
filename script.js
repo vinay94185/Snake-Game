@@ -49,14 +49,14 @@ function Start() {
 	// Snake Object Defination
 	function snake(x,y,len,isPlayer) {
 		this.score = 0;
-		this.speed = 2.5;
+		this.speed = 2;
 		this.x = x;
 		this.y = y;
 		this.trail = []; // tail
 		this.len = len;// * this.speed; // length of tail in begnining
-		this.block = 18; // size of snake block's
-		this.halfblock = this.block/2;
-		this.quaterblock = this.block/4;
+		this.block = 9; // size of snake block's
+		this.halfblock = Math.floor(this.block/2);
+		this.quaterblock = Math.floor(this.block/4);
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 		this.isPlayer = isPlayer;
 
@@ -83,16 +83,16 @@ function Start() {
 				if(i === 0) {
 					ct.fillStyle = "red";
 					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.halfblock,0,2*Math.PI);
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,2*Math.PI);
 					ct.fill();
 					ct.closePath();
-					ct.beginPath();
-				} else {
-					ct.arc(this.trail[i].x,this.trail[i].y,this.halfblock,0,2*Math.PI);
-				}
 					ct.fillStyle = this.color;		
+				} else {
+					ct.beginPath();
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,2*Math.PI);
 					ct.fill();
-					ct.closePath();
+					ct.closePath();			
+				}
 			}
 		}
 		
