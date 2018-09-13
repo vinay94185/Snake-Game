@@ -57,7 +57,6 @@ function Start() {
 		this.len = len;// * this.speed; // length of tail in begnining
 		this.block = 9; // size of snake block's
 		this.halfblock = Math.floor(this.block/2);
-		this.quaterblock = Math.floor(this.block/4);
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 		this.isPlayer = isPlayer;
 
@@ -73,7 +72,7 @@ function Start() {
 		*/
 		for(var i = 0;i<this.len;++i) {
 			this.trail[i] = new trail();
-			this.trail[i].x = x - (this.quaterblock * i);
+			this.trail[i].x = x - (this.halfblock * i);
 			this.trail[i].y = y;
 		}
 		
@@ -112,7 +111,7 @@ function Start() {
 				this.y += vy;
 			
 				// reduce the drawing and x/y cordinates storage load
-				if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.quaterblock) {
+				if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
 					this.trail[0].x = this.x;
 					this.trail[0].y = this.y;
 			
