@@ -5,9 +5,13 @@ function Start() {
 	var WindowHeight = window.innerHeight;
 	let dash = false;
 	var Screen = document.getElementById('gameScreen');
+	var Back = document.getElementById('gameBackground');
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
+	Back.width = WindowWidth;
+	Back.height = WindowHeight;
 	const ct = Screen.getContext("2d");
+	const bg = Back.getContext("2d");
 	const circ = 2*Math.PI;
 	/* 
 	** Array of color's for snake's 
@@ -236,12 +240,20 @@ function Start() {
 		this.mass = Math.floor((Math.random() * 4)+ 3);
 		this.color = colors[Math.floor(Math.random() * colors.length)];
 		this.show = () => {
-			ct.fillStyle = this.color;
-			ct.beginPath();
-			ct.arc(this.x,this.y,this.mass,0,circ);
-			ct.fill();
-			ct.closePath();
+			bg.fillStyle = this.color;
+			bg.beginPath();
+			bg.arc(this.x,this.y,this.mass,0,circ);
+			bg.fill();
+			bg.closePath();
 		}
+		this.clear = () => {
+			bg.fillStyle = "#FFFFFF";
+			bg.beginPath();
+			bg.arc(this.x,this.y,this.mass+1,0,circ);
+			bg.fill();
+			bg.closePath();
+		}
+		this.show();
 	}
 	
 	var x,y,len; // will be used initilize snake's position's
@@ -306,7 +318,6 @@ function Start() {
 		++frames;
 		ct.clearRect(0,0,WindowWidth,WindowHeight);
 		displayScore();
-		edible.forEach( food => {food.show()} ); // display food
 
 		if(!gameon) {
 			gameover();
@@ -339,6 +350,7 @@ function Start() {
 				const dis = GetDistance(snakes[sno].x,snakes[sno].y,edible[i].x,edible[i].y);
 				if(dis <= 20) {
 						snakes[sno].eat(edible[i].mass);
+						edible[i].clear();
 						edible.splice(i,1);
 						n = edible.length;
 						break;
