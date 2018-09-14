@@ -210,8 +210,8 @@ function Start() {
 			
 			this.die = () => {
 				this.trail.forEach (trail => {
-					const x = trail.x + (Math.random() * this.block);
-					const y = trail.y + (Math.random() * this.block);
+					const x = Math.floor(trail.x + (Math.random() * this.block));
+					const y = Math.floor(trail.y + (Math.random() * this.block));
 					setfood(x,y);
 				});
 
