@@ -281,7 +281,7 @@ function Start() {
 		gameon = true;
 		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
 		else while(snakes.length != smax) newSnake(false);
-		setInterval(setfood,500); 
+		setInterval(setfood,1000); 
 		newSnake(true);
 		++smax;
 		ingame();
