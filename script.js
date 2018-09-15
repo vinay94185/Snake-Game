@@ -59,6 +59,8 @@ function Start() {
 		this.curSpeed = this.speed ;
 		this.x = x;
 		this.y = y;
+		this.eyeX = 0;
+		this.eyeY = 0;
 		this.trail = []; // tail
 		this.len = len; // length of tail in begnining
 		this.block = 9; // size of snake block's
@@ -88,11 +90,36 @@ function Start() {
 			ct.fillStyle = this.color;
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
+					// head
 					ct.fillStyle = "red";
 					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
 					ct.fill();
 					ct.closePath();
+					//eye 1
+					ct.beginPath();
+					ct.fillStyle = "white";
+					ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,4,0,circ);
+					ct.fill();					
+					ct.closePath();
+					ct.beginPath();
+					ct.fillStyle = "black";
+					ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,2,0,circ);
+					ct.fill();					
+					ct.closePath();
+					//eye 2
+					ct.beginPath();
+					ct.fillStyle = "white";
+					ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,4,0,circ);
+					ct.fill();					
+					ct.closePath();
+					ct.beginPath();
+					ct.fillStyle = "black";
+					ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,2,0,circ);
+					ct.fill();					
+					ct.closePath();
+
+
 				} else {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
@@ -110,10 +137,26 @@ function Start() {
 			else this.curSpeed = this.speed;
 			
 			switch(str) {
-				case 'right': vx = this.curSpeed; break;
-				case 'left': vx = -this.curSpeed; break;
-				case 'up': vy = -this.curSpeed; break;
-				case 'down': vy = this.curSpeed; break;
+				case 'right': 
+					vx = this.curSpeed;
+					this.eyeX = 0;
+					this.eyeY = 5;
+					break;
+				case 'left':
+					vx = -this.curSpeed; 
+					this.eyeX = 0;
+					this.eyeY = 5; 
+					break;
+				case 'up': 
+					vy = -this.curSpeed; 
+					this.eyeX = 5;
+					this.eyeY = 0;
+					break;
+				case 'down': 
+					vy = this.curSpeed;
+					this.eyeX = 5;
+					this.eyeY = 0;
+					break;
 			}
 
 				this.x += vx;
