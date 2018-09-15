@@ -325,6 +325,7 @@ function Start() {
 	var sno = 0;
 	var smax = 4,done = false;
 	var name;
+	let foodintr = null;
 	/*
 	** Function that beigin's the game and closes the menu
 	*/	
@@ -333,12 +334,14 @@ function Start() {
 		document.getElementsByClassName('form')[0].style.display = 'none';
 		name = document.querySelector('.form input').value;
 		cancelAnimationFrame(frame);
-		gameon = true;
 		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
 		else while(snakes.length != smax) newSnake(false);
-		setInterval(setfood,1000); 
-		newSnake(true);
-		++smax;
+		if(!foodintr) foodintr = setInterval(setfood,1000); 
+		if(!gameon) { 
+			newSnake(true);
+			++smax;
+		}
+		gameon = true;
 		ingame();
 		} else {
 			alert('Please Enter Yout Name');
@@ -379,11 +382,12 @@ function Start() {
 			if(snakes[sno].isPlayer) {
 				snakes[sno].die();
 				gameon = false;
+				smax--;
 			} else {
 				snakes[sno].die();
+				newSnake(false);
 			}
 				snakes.splice(sno,1);
-				newSnake(false);
 				--sno;
 			}
 		}
