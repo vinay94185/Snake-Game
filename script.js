@@ -3,6 +3,7 @@ window.addEventListener("load",Start);
 function Start() {
 	var WindowWidth = window.innerWidth;
 	var WindowHeight = window.innerHeight;
+	let Hgraphic = 0;
 	let dash = false;
 	var Screen = document.getElementById('gameScreen');
 	var Back = document.getElementById('gameBackground');
@@ -101,6 +102,7 @@ function Start() {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
 					ct.fill();
+
 					ct.closePath();
 					//Outer eye
 					ct.beginPath();
@@ -112,6 +114,7 @@ function Start() {
 					/* inner eye */
 					ct.beginPath();
 					ct.fillStyle = "black";
+					if(Hgraphic) ct.strokeStyle = "#0000003A";
 					switch(this.ret) {
 						case 'left': this.innerEye = 1; break;
 						case 'right': this.innerEye = -1; break;
@@ -128,6 +131,8 @@ function Start() {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					ct.fill();
+					ct.lineWidth = 1;
+					if(Hgraphic) ct.stroke();
 					ct.closePath();			
 				}
 			}
@@ -554,5 +559,10 @@ function Start() {
 		ct.fillText('Score : ' + score,20,50);
 		ct.fillText('fps : ' + fps,WindowWidth - 100,50);
 	}
-		
+	
+	function ChangeGraphics(x) {
+		Hgraphic = parseInt(x.value);
+	}	
+	
+	Start.ChangeGraphics = ChangeGraphics;
 }
