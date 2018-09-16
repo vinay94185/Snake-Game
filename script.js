@@ -87,8 +87,14 @@ function Start() {
 		*/
 		for(var i = 0;i<this.len;++i) {
 			this.trail[i] = new trail();
-			this.trail[i].x = x - (this.halfblock * i);
+			if(i) {
+				while(GetDistance(this.x,this.y,this.trail[i-1].x,this.trail[i-1].y) >= this.halfblock) {
+					++x;		
+				}
+			}
+			this.trail[i].x = x;
 			this.trail[i].y = y;
+			
 		}
 		
 		/* Display snake on the felid */
@@ -243,13 +249,21 @@ function Start() {
 			var vx,vy;
 					vx = 0;
 					vy = 0;
+							
 					switch(this.ret) {
 						case 'right': vx = this.speed; break;
 						case 'left': vx = -this.speed; break;
 						case 'up': vy = -this.speed; break;
 						case 'down': vy = this.speed; break;
-					}	
-						this.trail.unshift(new trail(this.trail[0].x + vx,this.trail[0].y + vy));
+					}
+
+				this.trail.unshift(new trail(this.trail[0].x,this.trail[0].y));
+					
+				while(GetDistance(this.trail[0].x,this.trail[0].y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
+					this.trail[0].x += vx;
+					this.trail[0].y += vy;
+				}
+				
 				} else { this.score += mass; }
 			}
 			
