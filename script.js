@@ -518,6 +518,7 @@ function Start() {
 
 	window.addEventListener('keydown',checkkey);
 	window.addEventListener('keyup',keyreset);
+	window.addEventListener('resize',screenChange);
 	
 	function checkkey(keyboard) {
 		switch(keyboard.key) {
@@ -568,6 +569,15 @@ function Start() {
 		ct.font = "20px Arial";
 		ct.fillText('Score : ' + score,20,50);
 		ct.fillText('fps : ' + fps,WindowWidth - 100,50);
+	}
+	
+	function screenChange() {
+		WindowWidth = window.innerWidth;
+		WindowHeight = window.innerHeight;
+		Screen.width = WindowWidth;
+		Screen.height = WindowHeight;
+		Back.width = WindowWidth;
+		Back.height = WindowHeight;	
 	}
 	
 	function ChangeGraphics(x) {
