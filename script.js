@@ -457,16 +457,15 @@ function Start() {
 	}
 	setInterval(Resetfps,1000);
 
+	/*****************
+	** Running game **
+	******************/
 	
 	function ingame() {
 		++frames;
 		ct.clearRect(0,0,WindowWidth,WindowHeight);
-		displayScore();
-
-		if(!gameon) {
-			gameover();
-		}
-
+		
+		// show snakes
 		for(sno = 0; sno < smax;++sno) {
 			if(snakes[sno].isPlayer) { 
 				snakes[sno].move(playerGo);
@@ -475,6 +474,7 @@ function Start() {
 			} else { 
 				snakes[sno].smartMove();
 			}
+			
 			// dettect collision
 			if(snakes[sno].colliide(snakes)) {
 			if(snakes[sno].isPlayer) {
@@ -490,6 +490,7 @@ function Start() {
 			}
 		}
 		
+		// eat food
 		for(var i=0,n = edible.length;i<n;++i) {
 				for(sno = 0; sno < smax;++sno) {				
 				const dis = GetDistance(snakes[sno].x,snakes[sno].y,edible[i].x,edible[i].y);
@@ -505,6 +506,13 @@ function Start() {
 					}
 				}
 		}	
+		
+		displayScore();
+
+		if(!gameon) {
+			gameover();
+		}
+
 		frame = requestAnimationFrame(ingame);		
 	}
 
