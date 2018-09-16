@@ -80,6 +80,7 @@ function Start() {
 		this.mv = Math.floor((Math.random() * 4)+1); // random move
 		this.ret = undefined; // returned direction will be stored here
 		this.DirAvoid = true;
+		this.op = Math.floor(Math.random() * 7);
 		
 		/*
 		** Set the Cordinate's of the snake
@@ -100,11 +101,24 @@ function Start() {
 		/* Display snake on the felid */
 		this.show = () => {
 			var tmp_len = this.len - 1;
+			ct.fillStyle = this.color +this.op +'A';
+			if((Hgraphic && dash && this.isPlayer)||(this.dashboost)) {
+				for(var i=tmp_len;i>=0;--i) {
+					if(i%100 == 0) ++this.op; //= Math.floor(Math.random() * 8)+1;
+					if(this.op > 9) this.op = 1;
+					ct.fillStyle = this.color +this.op +'0';
+					ct.beginPath();
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
+					ct.fill();
+					ct.closePath();		
+				}
+			}
+			
 			ct.fillStyle = this.color;
+			
 			for(var i=tmp_len;i>=0;--i) {
 				if(i === 0) {
 					// head
-					ct.fillStyle = "red";
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
 					ct.fill();
