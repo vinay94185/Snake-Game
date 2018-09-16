@@ -377,6 +377,11 @@ function Start() {
 		this.show();
 	}
 	
+	
+	/*******************
+	** MAIN GAME CODE ** 
+	********************/
+	
 	var x,y,len; // will be used initilize snake's position's
 	var snakes = [];
 	const MaxSnakes = 7; // max number of snake's
@@ -401,16 +406,17 @@ function Start() {
 	var edible = [];
 	var gameon = false;
 	var sno = 0;
-	var smax = 4,done = false;
+	var smax,done = false;
 	var name;
 	let foodintr = null;
 	/*
 	** Function that beigin's the game and closes the menu
 	*/	
 	function beginGame() {
-		if(document.querySelector('.form input').value != '') {
+		if(document.getElementById('name').value != '' && document.getElementById('num').value != '') {
 		document.getElementsByClassName('form')[0].style.display = 'none';
-		name = document.querySelector('.form input').value;
+		name = document.getElementById('name').value;
+		smax = parseInt(document.getElementById('num').value);
 		cancelAnimationFrame(frame);
 		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
 		else while(snakes.length != smax) newSnake(false);
@@ -422,7 +428,7 @@ function Start() {
 		gameon = true;
 		ingame();
 		} else {
-			alert('Please Enter Yout Name');
+			alert('Please Enter Yout Name and number of player\'s');
 		}
 
 	}
