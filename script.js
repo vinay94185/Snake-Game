@@ -417,6 +417,8 @@ function Start() {
 		document.getElementsByClassName('form')[0].style.display = 'none';
 		name = document.getElementById('name').value;
 		smax = parseInt(document.getElementById('num').value);
+		document.getElementById('name').blur();
+		document.getElementById('num').blur();
 		cancelAnimationFrame(frame);
 		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
 		else while(snakes.length != smax) newSnake(false);
