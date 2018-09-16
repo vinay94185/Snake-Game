@@ -62,11 +62,13 @@ function Start() {
 		this.eyeX = 0;
 		this.eyeY = 0;
 		this.trail = []; // tail
+		this.foodtrack = [];
 		this.len = len; // length of tail in begnining
 		this.block = 9; // size of snake block's
 		this.halfblock = Math.floor(this.block/2);
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 		this.isPlayer = isPlayer;
+		this.dashboost = false;
 
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 		this.count = 0; //counter for max count
@@ -133,7 +135,7 @@ function Start() {
 		this.move = (str) => {
 			var vx = 0,vy = 0;
 			/* check direction */
-			if(dash && this.isPlayer) this.curSpeed = this.speed * 2;
+			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 2;
 			else this.curSpeed = this.speed;
 			
 			switch(str) {
@@ -225,7 +227,8 @@ function Start() {
 			}
 						
 			this.eat = (mass) => {
-			if(Math.floor((this.score + mass)/50) > Math.floor(this.score/50)) {
+			this.foodtrack.shift();
+			if(Math.floor((this.score + mass)/25) > Math.floor(this.score/25)) {
 			this.len += 1;
 			this.score += mass;
 			
@@ -272,6 +275,81 @@ function Start() {
 					if(this.ret == 'right') this.mv = 1;
 					if(this.ret == 'up') this.mv = 4;
 					if(this.ret == 'down') this.mv = 3;
+				}
+			}
+			
+			this.eatlist = (x,y) => {
+				if(!this.isPlayer)  {
+				let alreadyin = false;
+				for(let i=0,max = this.foodtrack.length;i<max;++i) {
+					if(this.foodtrack[i].x == x && this.foodtrack[i].y == y) {
+						alreadyin = true;
+						break;
+					}
+				}
+				if(!alreadyin) this.foodtrack.push(new trail(x,y));
+					if(this.foodtrack.length > 10) {
+						this.dashboost = true;
+					} else {
+						this.dashboost = false;
+					}
+				}					
+			}
+			
+			this.clearfood = (function() {
+				if(this.foodtrack != undefined) {
+					this.foodtrack.splice(0,this.foodtrack.length);
+				}
+				setInterval(this.clearfood,1000);
+			})();
+			
+			this.smartMove = () => {
+				this.time = new Date();
+				
+				if(this.oldtime === undefined) { 
+					this.oldtime = this.time; 
+					this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()+250);
+					if(this.oldtime.getMilliseconds() > 950)  {
+						this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()-50)
+					}
+
+				} else if(this.time.getMilliseconds() > (this.oldtime.getMilliseconds())) {
+					this.oldtime = this.time;
+					this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()+250);
+					if(this.oldtime.getMilliseconds() > 950)  {
+						this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()-50)
+					}
+				if(this.foodtrack.length) {
+					
+				let x = this.foodtrack[0].x;
+				let y = this.foodtrack[0].y;
+				let disX = Math.abs((x - this.x));
+				let disY = Math.abs((y - this.y));
+				
+				if(disX > disY) {
+					if(x < this.x) {
+						this.ret = 'left';
+					} else if (x > this.x) {
+						this.ret = 'right';
+					}
+				} else {
+					if(y > this.y) {
+						this.ret = 'down';
+					} else if(y < this.y) {
+						this.ret = 'up';
+					}
+				}
+				
+				if(GetDistance(x,y,this.foodtrack[0].x,this.foodtrack[0].y) <= 20) {
+					this.foodtrack.shift();
+				}
+
+				this.move(this.ret);
+				} else {
+				this.randMove();
+				}
+				} else {
+					this.move(this.ret);
 				}
 			}
 	} // end snake object
@@ -375,7 +453,7 @@ function Start() {
 				snakes[sno].name(name);
 				score = snakes[sno].score;
 			} else { 
-				snakes[sno].randMove();
+				snakes[sno].smartMove();
 			}
 			// dettect collision
 			if(snakes[sno].colliide(snakes)) {
@@ -401,6 +479,9 @@ function Start() {
 						edible.splice(i,1);
 						n = edible.length;
 						break;
+					}
+				if(dis <= 100) {
+						snakes[sno].eatlist(edible[i].x,edible[i].y);
 					}
 				}
 		}	
