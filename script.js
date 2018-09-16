@@ -378,10 +378,12 @@ function Start() {
 			bg.closePath();
 		}
 		this.clear = () => {
-			bg.fillStyle = "#FFFFFF";
 			bg.beginPath();
 			bg.arc(this.x,this.y,this.mass+1,0,circ);
-			bg.fill();
+			bg.save();
+			bg.clip();
+			bg.clearRect(0,0,WindowWidth,WindowHeight);
+			bg.restore();
 			bg.closePath();
 		}
 		this.show();
