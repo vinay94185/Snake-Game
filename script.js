@@ -228,7 +228,7 @@ function Start() {
 						
 			this.eat = (mass) => {
 			this.foodtrack.shift();
-			if(Math.floor((this.score + mass)/25) > Math.floor(this.score/25)) {
+			if(Math.floor((this.score + mass)/15) > Math.floor(this.score/15)) {
 			this.len += 1;
 			this.score += mass;
 			
@@ -288,7 +288,7 @@ function Start() {
 					}
 				}
 				if(!alreadyin) this.foodtrack.push(new trail(x,y));
-					if(this.foodtrack.length > 10) {
+					if(this.foodtrack.length > 20) {
 						this.dashboost = true;
 					} else {
 						this.dashboost = false;
