@@ -1,0 +1,59 @@
+.screen {
+	width:100%;
+	height:100%;
+	position:relative;
+}
+
+.screen canvas {
+	background-color: transparent;
+	position:absolute;
+	top:0;
+	left:0;
+}
+
+.form {
+	top:50%;
+	transform:translateY(-50%);
+	position:fixed;
+	left:0;
+	right:0;
+	margin:auto;
+	width: 350px;
+	z-index:3;
+}
+
+.form .btnStyle {
+	width:250px;
+	height:25px; 
+	margin:auto;
+	border-style:solid;
+	border-color:#707F8C;
+	background:#707F8C;
+	color:#FFFFFF;
+	display:block;
+}
+
+.form .inpStyle {
+	margin: auto;
+	width:240px;
+	border: 1px solid #808080;
+	padding: 4px 5px;
+	display:block;
+	margin-bottom:10px;
+}
+
+.form h1 {
+	font-size:60px;
+	font-family:arial;
+	color:#233d4d;
+	text-align:center;
+	margin:0;
+	font-weight:normal;
+}
+
+#gameBackground {
+	z-index:0;
+}
+#gameScreen {
+	z-index:1;
+}
