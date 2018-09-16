@@ -271,10 +271,12 @@ function Start() {
 						return 0;
 				} else {
 					this.DirAvoid = false;
-					if(this.ret == 'left') this.mv = 2;
-					if(this.ret == 'right') this.mv = 1;
-					if(this.ret == 'up') this.mv = 4;
-					if(this.ret == 'down') this.mv = 3;
+					switch(this.ret) {
+						case 'left': this.mv = 2; this.ret = 'right'; break;
+						case 'right': this.mv = 1; this.ret = 'left'; break;
+						case 'up': this.mv = 4; this.ret = 'down'; break;
+						case 'down': this.mv = 3; this.ret = 'up'; break;
+					}
 				}
 			}
 			
