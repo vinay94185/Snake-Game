@@ -69,6 +69,10 @@ function Start() {
 		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 		this.isPlayer = isPlayer;
 		this.dashboost = false;
+		this.innetEyeX = 0;
+		this.innetEyeY = 0;
+		this.innerEye = 0;
+
 
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 		this.count = 0; //counter for max count
@@ -98,30 +102,28 @@ function Start() {
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
 					ct.fill();
 					ct.closePath();
-					//eye 1
+					//Outer eye
 					ct.beginPath();
 					ct.fillStyle = "white";
 					ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,4,0,circ);
-					ct.fill();					
-					ct.closePath();
-					ct.beginPath();
-					ct.fillStyle = "black";
-					ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,2,0,circ);
-					ct.fill();					
-					ct.closePath();
-					//eye 2
-					ct.beginPath();
-					ct.fillStyle = "white";
 					ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,4,0,circ);
-					ct.fill();					
+					ct.fill();
 					ct.closePath();
+					/* inner eye */
 					ct.beginPath();
 					ct.fillStyle = "black";
-					ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,2,0,circ);
+					switch(this.ret) {
+						case 'left': this.innerEye = 1; break;
+						case 'right': this.innerEye = -1; break;
+						case 'up': this.innerEye = 1; break;
+						case 'down': this.innerEye = -1; break;
+					}
+					if(this.eyeY)this.innetEyeX = this.innerEye; else this.innetEyeX = 0;
+					if(this.eyeX)this.innetEyeY = this.innerEye; else this.innetEyeY = 0;
+					ct.arc(this.trail[i].x-(this.eyeX + this.innetEyeX),this.trail[i].y-(this.eyeY + this.innetEyeY),2,0,circ);
+					ct.arc(this.trail[i].x+(this.eyeX - this.innetEyeX),this.trail[i].y+(this.eyeY - this.innetEyeY),2,0,circ);
 					ct.fill();					
 					ct.closePath();
-
-
 				} else {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
@@ -135,6 +137,7 @@ function Start() {
 		this.move = (str) => {
 			var vx = 0,vy = 0;
 			/* check direction */
+			if(this.isPlayer) this.ret = str;
 			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 2;
 			else this.curSpeed = this.speed;
 			
