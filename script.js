@@ -107,7 +107,7 @@ function Start() {
 			ct.fillStyle = this.color +this.op +'A';
 			if((dash && this.isPlayer)||(this.dashboost)) {
 				for(var i=tmp_len;i>=0;--i) {
-					if(i%100 == 0) ++this.op; //= Math.floor(Math.random() * 8)+1;
+					if(i%100 == 0) ++this.op;
 					if(this.op > 9) this.op = 1;
 					ct.fillStyle = this.color +this.op +'0';
 					ct.beginPath();
@@ -131,25 +131,26 @@ function Start() {
 						ct.beginPath();
 						switch(this.ret) {
 							case 'up': 
-								this.ms = Math.PI * 1.25;
-								this.me = Math.PI * 1.75;
+								this.ms = Math.PI * 1.20;
+								this.me = Math.PI * 1.80;
 							break;
 							case 'down': 
-								this.ms = Math.PI * 0.25;
-								this.me = Math.PI * 0.75;
+								this.ms = Math.PI * 0.20;
+								this.me = Math.PI * 0.80;
 							break;
 							case 'left': 
-								this.ms = Math.PI * 0.75;
-								this.me = Math.PI * 1.25;
+								this.ms = Math.PI * 0.60;
+								this.me = Math.PI * 1.30;
 							break;
 							case 'right': 
-								this.ms = Math.PI * 1.75;
-								this.me = Math.PI * 0.25;
+								this.ms = Math.PI * 1.60;
+								this.me = Math.PI * 0.30;
 							break;
 						}
 						
-						ct.arc(this.x,this.y,this.block-2,this.ms,this.me);
+						ct.arc(this.x,this.y,this.block-3,this.ms,this.me);
 						ct.lineWidth = 5;
+						ct.strokeStyle = "#8b0000";
 						ct.stroke();
 						ct.closePath();
 						if(this.eating == 2) {
