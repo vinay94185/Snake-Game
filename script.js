@@ -197,7 +197,7 @@ function Start() {
 			var vx = 0,vy = 0;
 			/* check direction */
 			if(this.isPlayer) this.ret = str;
-			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 2;
+			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 3;
 			else this.curSpeed = this.speed;
 			
 			switch(str) {
@@ -299,10 +299,10 @@ function Start() {
 					vy = 0;
 							
 					switch(this.ret) {
-						case 'right': vx = this.speed; break;
-						case 'left': vx = -this.speed; break;
-						case 'up': vy = -this.speed; break;
-						case 'down': vy = this.speed; break;
+						case 'right': vx = this.curSpeed; break;
+						case 'left': vx = -this.curSpeed; break;
+						case 'up': vy = -this.curSpeed; break;
+						case 'down': vy = this.curSpeed; break;
 					}
 
 				this.trail.unshift(new trail(this.trail[0].x,this.trail[0].y));
