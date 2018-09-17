@@ -81,6 +81,9 @@ function Start() {
 		this.ret = undefined; // returned direction will be stored here
 		this.DirAvoid = true;
 		this.op = Math.floor(Math.random() * 7);
+		this.eating = 0;
+		this.ms = 2;
+		this.me = 1;
 		
 		/*
 		** Set the Cordinate's of the snake
@@ -102,7 +105,7 @@ function Start() {
 		this.show = () => {
 			var tmp_len = this.len - 1;
 			ct.fillStyle = this.color +this.op +'A';
-			if((Hgraphic && dash && this.isPlayer)||(this.dashboost)) {
+			if((Hgraphic && dash && this.isPlayer)||(Hgraphic && this.dashboost)) {
 				for(var i=tmp_len;i>=0;--i) {
 					if(i%100 == 0) ++this.op; //= Math.floor(Math.random() * 8)+1;
 					if(this.op > 9) this.op = 1;
@@ -122,8 +125,39 @@ function Start() {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
 					ct.fill();
-
 					ct.closePath();
+					//Mouth
+					if(this.eating) {
+						ct.beginPath();
+						switch(this.ret) {
+							case 'up': 
+								this.ms = Math.PI * 1.25;
+								this.me = Math.PI * 1.75;
+							break;
+							case 'down': 
+								this.ms = Math.PI * 0.25;
+								this.me = Math.PI * 0.75;
+							break;
+							case 'left': 
+								this.ms = Math.PI * 0.75;
+								this.me = Math.PI * 1.25;
+							break;
+							case 'right': 
+								this.ms = Math.PI * 1.75;
+								this.me = Math.PI * 0.25;
+							break;
+						}
+						
+						ct.arc(this.x,this.y,this.block-2,this.ms,this.me);
+						ct.lineWidth = 5;
+						ct.stroke();
+						ct.closePath();
+						if(this.eating == 2) {
+							this.eating = 1;
+							if(this.intr != undefined) clearTimeout(this.intr);
+							this.intr = setTimeout( () => { this.eating = 0; },100);
+						}
+					}
 					//Outer eye
 					ct.beginPath();
 					ct.fillStyle = "white";
@@ -278,7 +312,8 @@ function Start() {
 					this.trail[0].y += vy;
 				}
 				
-				} else { this.score += mass; }
+				} else { this.score += mass; }	
+				this.eating = 2;
 			}
 			
 			this.colliide = (others) => {
