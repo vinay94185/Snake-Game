@@ -319,7 +319,7 @@ function Start() {
 			
 			this.colliide = (others) => {
 				for(let i=0,n = others.length;i<n;++i) {
-					const ret = Checktrail(this.trail[0],others[i].trail,this.block * 2);
+					const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
 					if(this === others[i]) continue;
 					if(ret === 1) {
 						return true;
