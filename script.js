@@ -105,7 +105,7 @@ function Start() {
 		this.show = () => {
 			var tmp_len = this.len - 1;
 			ct.fillStyle = this.color +this.op +'A';
-			if((Hgraphic && dash && this.isPlayer)||(Hgraphic && this.dashboost)) {
+			if((dash && this.isPlayer)||(this.dashboost)) {
 				for(var i=tmp_len;i>=0;--i) {
 					if(i%100 == 0) ++this.op; //= Math.floor(Math.random() * 8)+1;
 					if(this.op > 9) this.op = 1;
