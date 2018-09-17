@@ -82,6 +82,12 @@ body {
 	font-weight:normal;
 }
 
+.form .ins {
+    padding: 5% 14%;
+    font-size: 12px;
+	text-align:center;
+}
+
 #gameBackground {
 	z-index:0;
 }
