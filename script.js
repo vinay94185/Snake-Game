@@ -153,6 +153,7 @@ function Start() {
 						ct.strokeStyle = "#8b0000";
 						ct.stroke();
 						ct.closePath();
+						if(Hgraphic) ct.lineWidth = 1;
 						if(this.eating == 2) {
 							this.eating = 1;
 							if(this.intr != undefined) clearTimeout(this.intr);
@@ -186,7 +187,6 @@ function Start() {
 					ct.beginPath();
 					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					ct.fill();
-					ct.lineWidth = 1;
 					if(Hgraphic) ct.stroke();
 					ct.closePath();			
 				}
