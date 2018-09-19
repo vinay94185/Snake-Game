@@ -11,9 +11,16 @@ function Start() {
 	Screen.height = WindowHeight;
 	Back.width = WindowWidth;
 	Back.height = WindowHeight;
-	const ct = Screen.getContext("2d");
+	const ctx = Screen.getContext("2d");
 	const bg = Back.getContext("2d");
 	const circ = 2*Math.PI;
+	
+	// Adding Buffer
+	var buff = document.createElement('canvas');
+	buff.width = WindowWidth;
+	buff.height = WindowHeight;
+	const ct = buff.getContext('2d');
+	
 	/* 
 	** Array of color's for snake's 
 	** And for food.
@@ -475,6 +482,7 @@ function Start() {
 		for(var i=0; i<MaxSnakes;++i) {
 			snakes[i].randMove(); // Make a random move
 		}
+		draw();
 		frame = requestAnimationFrame(menu);
 	})();
 	
@@ -576,7 +584,7 @@ function Start() {
 		if(!gameon) {
 			gameover();
 		}
-
+		draw();
 		frame = requestAnimationFrame(ingame);		
 	}
 
@@ -647,6 +655,11 @@ function Start() {
 	function ChangeGraphics(x) {
 		Hgraphic = parseInt(x.value);
 	}	
+	
+	function draw() {
+		ctx.clearRect(0,0,WindowWidth,WindowHeight);
+		ctx.drawImage(buff,0,0,WindowWidth,WindowHeight);
+	}
 	
 	Start.ChangeGraphics = ChangeGraphics;
 }
