@@ -12,15 +12,20 @@ function Start() {
 	Back.width = WindowWidth;
 	Back.height = WindowHeight;
 	const ctx = Screen.getContext("2d");
-	const bg = Back.getContext("2d");
+	const bgx = Back.getContext("2d");
 	const circ = 2*Math.PI;
 	
 	// Adding Buffer
 	var buff = document.createElement('canvas');
-	buff.width = WindowWidth;
-	buff.height = WindowHeight;
+	var foodbuff = document.createElement('canvas');
+	const mapWidth = 2000;
+	const mapHeight = 2000;
+	buff.width = mapWidth;
+	buff.height = mapHeight;
+	foodbuff.width = mapWidth;
+	foodbuff.height = mapHeight;
 	const ct = buff.getContext('2d');
-	
+	const bg = foodbuff.getContext('2d');
 	/* 
 	** Array of color's for snake's 
 	** And for food.
@@ -59,6 +64,17 @@ function Start() {
 		}
 		return colstate;
 	}
+
+	//camera object
+	function camera() {
+	this.X = 0;
+	this.Y = 0;
+		this.follow = (x,y) => {
+			this.X = x - (WindowWidth/2);
+			this.Y = y - (WindowHeight/2);
+		}
+	}
+	let cam = new camera;
 	
 	// Snake Object Defination
 	function snake(x,y,len,isPlayer) {
@@ -248,18 +264,18 @@ function Start() {
 			
 			/*
 			** The following code will make sure that
-			** If the snake goes out of screen then 
+			** If the snake goes out of map then 
 			** it will come back from other side of 
-			** the screen.
+			** the map.
 			*/
-			if(this.x > WindowWidth) {
+			if(this.x > mapWidth) {
 				this.x = 0;
 			} else if(this.x < 0) {
-				this.x = WindowWidth;
-			} else if (this.y > WindowHeight) {
+				this.x = mapWidth;
+			} else if (this.y > mapHeight) {
 				this.y = 0;
 			} else if (this.y < 0) {
-				this.y = WindowHeight;
+				this.y = mapHeight;
 			}
 			this.show(); // since snake is moved display it on new position
 		}
@@ -535,13 +551,16 @@ function Start() {
 	
 	function ingame() {
 		++frames;
-		ct.clearRect(0,0,WindowWidth,WindowHeight);
+		ct.fillStyle = 'black';
+		ct.fillRect(0,0,mapWidth,mapHeight);
+		ct.clearRect(10,10,mapWidth-20,mapHeight-20);
 		
 		// show snakes
 		for(sno = 0; sno < smax;++sno) {
 			if(snakes[sno].isPlayer) { 
 				snakes[sno].move(playerGo);
 				snakes[sno].name(name);
+				cam.follow(snakes[sno].x,snakes[sno].y);
 				score = snakes[sno].score;
 			} else { 
 				snakes[sno].smartMove();
@@ -650,8 +669,6 @@ function Start() {
 		Screen.height = WindowHeight;
 		Back.width = WindowWidth;
 		Back.height = WindowHeight;	
-		buff.width = WindowWidth;
-		buff.height = WindowHeight;
 	}
 	
 	function ChangeGraphics(x) {
@@ -660,7 +677,9 @@ function Start() {
 	
 	function draw() {
 		ctx.clearRect(0,0,WindowWidth,WindowHeight);
-		ctx.drawImage(buff,0,0,WindowWidth,WindowHeight);
+		bgx.clearRect(0,0,WindowWidth,WindowHeight);
+		bgx.drawImage(foodbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
+		ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	}
 	
 	Start.ChangeGraphics = ChangeGraphics;
