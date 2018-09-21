@@ -1,5 +1,5 @@
 body {
-	background:url('data/square.png');
+	background:url('data/darksquare.png');
 }
 .screen {
 	width:100%;
@@ -87,10 +87,12 @@ body {
     font-size: 12px;
 	text-align:center;
 }
-
-#gameBackground {
+#Background {
 	z-index:0;
 }
-#gameScreen {
+#gameBackground {
 	z-index:1;
+}
+#gameScreen {
+	z-index:2;
 }

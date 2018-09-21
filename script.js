@@ -7,25 +7,45 @@ function Start() {
 	let dash = false;
 	var Screen = document.getElementById('gameScreen');
 	var Back = document.getElementById('gameBackground');
+	let patBack = document.getElementById('Background');
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
 	Back.width = WindowWidth;
 	Back.height = WindowHeight;
+	patBack.height = WindowHeight;
+	patBack.width = WindowWidth;
 	const ctx = Screen.getContext("2d");
 	const bgx = Back.getContext("2d");
+	const bpx = patBack.getContext("2d");
 	const circ = 2*Math.PI;
+	
+	let backgroundImage = new Image();
+	backgroundImage.src = './data/square.png';	
 	
 	// Adding Buffer
 	var buff = document.createElement('canvas');
 	var foodbuff = document.createElement('canvas');
+	var patbuff = document.createElement('canvas');
 	const mapWidth = 2000;
 	const mapHeight = 2000;
 	buff.width = mapWidth;
 	buff.height = mapHeight;
 	foodbuff.width = mapWidth;
 	foodbuff.height = mapHeight;
+	patbuff.width = mapWidth;
+	patbuff.height = mapHeight;
 	const ct = buff.getContext('2d');
 	const bg = foodbuff.getContext('2d');
+	const bp = patbuff.getContext('2d');
+	
+	//put background on map
+	backgroundImage.onload = () => {
+		let pattern = bp.createPattern(backgroundImage, 'repeat');
+		bp.fillStyle = pattern;
+		bp.fillRect(0,0,mapWidth,mapHeight);
+	}
+
+
 	/* 
 	** Array of color's for snake's 
 	** And for food.
@@ -551,9 +571,7 @@ function Start() {
 	
 	function ingame() {
 		++frames;
-		ct.fillStyle = 'black';
-		ct.fillRect(0,0,mapWidth,mapHeight);
-		ct.clearRect(10,10,mapWidth-20,mapHeight-20);
+		ct.clearRect(0,0,mapWidth,mapHeight);
 		
 		// show snakes
 		for(sno = 0; sno < smax;++sno) {
@@ -675,8 +693,10 @@ function Start() {
 	function draw() {
 		ctx.clearRect(0,0,WindowWidth,WindowHeight);
 		bgx.clearRect(0,0,WindowWidth,WindowHeight);
+		bpx.clearRect(0,0,WindowWidth,WindowHeight);
 		bgx.drawImage(foodbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 		ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
+		bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	}
 	
 	Start.ChangeGraphics = ChangeGraphics;
