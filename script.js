@@ -152,6 +152,7 @@ function Start() {
 			ct.fillStyle = this.color;
 			
 			for(var i=tmp_len;i>=0;--i) {
+				if(this.trail[i].x < cam.X || this.trail[i].y < cam.Y || this.trail[i].x > (cam.X + WindowWidth) || this.trail[i].y > (cam.Y + WindowHeight)) continue;
 				if((dash && this.isPlayer)||(this.dashboost)) this.flash(i);
 				if(i === 0) {
 					// head
