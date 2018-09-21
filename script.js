@@ -645,8 +645,8 @@ function Start() {
 		if(x+y != 0) {			
 			edible.push(new food(x,y));
 		} else {
-			x = Math.floor((Math.random() * WindowWidth));
-			y = Math.floor((Math.random() * WindowHeight));
+			x = Math.floor((Math.random() * mapWidth));
+			y = Math.floor((Math.random() * mapHeight));
 			edible.push(new food(x,y));
 		}
 	}	
