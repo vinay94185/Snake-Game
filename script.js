@@ -489,7 +489,7 @@ function Start() {
 			bg.arc(this.x,this.y,this.mass+1,0,circ);
 			bg.save();
 			bg.clip();
-			bg.clearRect(0,0,WindowWidth,WindowHeight);
+			bg.clearRect(0,0,mapWidth,mapHeight);
 			bg.restore();
 			bg.closePath();
 		}
