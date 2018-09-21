@@ -658,8 +658,8 @@ function Start() {
 	}
 	
 	function newSnake(isPlayer) {
-		x = Math.floor(Math.random() * WindowWidth);
-		y = Math.floor(Math.random() * WindowHeight);
+		x = Math.floor(Math.random() * mapWidth);
+		y = Math.floor(Math.random() * mapHeight);
 		len = Math.floor((Math.random() * 20) + 10);
 		snakes.push(new snake(x,y,len,isPlayer)); // make snake object
 	}
