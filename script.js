@@ -514,7 +514,7 @@ function Start() {
 	/* Menu for the Game */
 	var frame;
 	(function menu() {
-		ct.clearRect(0,0,WindowWidth,WindowHeight);
+		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
 		for(var i=0; i<MaxSnakes;++i) {
 			snakes[i].randMove(); // Make a random move
 		}
@@ -571,7 +571,7 @@ function Start() {
 	
 	function ingame() {
 		++frames;
-		ct.clearRect(0,0,mapWidth,mapHeight);
+		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
 		
 		// show snakes
 		for(sno = 0; sno < smax;++sno) {
