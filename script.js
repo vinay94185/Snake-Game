@@ -419,7 +419,7 @@ function Start() {
 				if(this.foodtrack != undefined) {
 					this.foodtrack.splice(0,this.foodtrack.length);
 				}
-				setInterval(this.clearfood,1000);
+				setTimeout(this.clearfood,1000);
 			})();
 			
 			this.smartMove = () => {
