@@ -147,22 +147,12 @@ function Start() {
 		/* Display snake on the felid */
 		this.show = () => {
 			var tmp_len = this.len - 1;
-			ct.fillStyle = this.color +this.op +'A';
-			if((dash && this.isPlayer)||(this.dashboost)) {
-				for(var i=tmp_len;i>=0;--i) {
-					if(i%100 == 0) ++this.op;
-					if(this.op > 9) this.op = 1;
-					ct.fillStyle = this.color +this.op +'0';
-					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
-					ct.fill();
-					ct.closePath();		
-				}
-			}
+			this.shineColor = this.color +this.op +'A';
 			
 			ct.fillStyle = this.color;
 			
 			for(var i=tmp_len;i>=0;--i) {
+				if((dash && this.isPlayer)||(this.dashboost)) this.flash(i);
 				if(i === 0) {
 					// head
 					ct.beginPath();
@@ -234,6 +224,17 @@ function Start() {
 					ct.closePath();			
 				}
 			}
+		}
+		
+		this.flash = (i) => {
+					if(i%100 == 0) ++this.op;
+					if(this.op > 9) this.op = 1;
+					ct.fillStyle = this.shineColor;
+					ct.beginPath();
+					ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
+					ct.fill();
+					ct.closePath();
+					ct.fillStyle = this.color;
 		}
 		
 		/* Move the snake */
