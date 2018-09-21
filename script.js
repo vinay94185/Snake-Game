@@ -598,12 +598,9 @@ function Start() {
 				}
 		}	
 		
-		displayScore();
-
-		if(!gameon) {
-			gameover();
-		}
 		draw();
+		displayScore();
+		if(!gameon) gameover();
 		frame = requestAnimationFrame(ingame);		
 	}
 
@@ -650,16 +647,16 @@ function Start() {
 	}
 	
 	function gameover() {
-		ct.fillStyle = "Grey";
-		ct.font = "60px Arial";
-		ct.fillText('GameOver',(WindowWidth/2) - 120,(WindowHeight/2));
+		ctx.fillStyle = "Grey";
+		ctx.font = "60px Arial";
+		ctx.fillText('GameOver',(WindowWidth/2) - 120,(WindowHeight/2));
 	}
 	
 	function displayScore() {
-		ct.fillStyle = "Grey";
-		ct.font = "20px Arial";
-		ct.fillText('Score : ' + score,20,50);
-		ct.fillText('fps : ' + fps,WindowWidth - 100,50);
+		ctx.fillStyle = "Grey";
+		ctx.font = "20px Arial";
+		ctx.fillText('Score : ' + score,20,50);
+		ctx.fillText('fps : ' + fps,WindowWidth - 100,50);
 	}
 	
 	function screenChange() {
