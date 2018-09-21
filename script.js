@@ -86,15 +86,11 @@ function Start() {
 	}
 
 	//camera object
-	function camera() {
-	this.X = 0;
-	this.Y = 0;
-		this.follow = (x,y) => {
-			this.X = x - (WindowWidth/2);
-			this.Y = y - (WindowHeight/2);
-		}
+	let cam = {
+	X:0,
+	Y:0,
+	follow: function (x,y) { this.X = x - (WindowWidth/2); this.Y = y - (WindowHeight/2);}
 	}
-	let cam = new camera;
 	
 	// Snake Object Defination
 	function snake(x,y,len,isPlayer) {
