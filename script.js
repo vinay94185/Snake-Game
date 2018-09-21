@@ -686,6 +686,8 @@ function Start() {
 		Screen.height = WindowHeight;
 		Back.width = WindowWidth;
 		Back.height = WindowHeight;	
+		patBack.height = WindowHeight;
+		patBack.width = WindowWidth;
 	}
 	
 	function ChangeGraphics(x) {
