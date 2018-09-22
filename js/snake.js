@@ -19,7 +19,7 @@
 	// Snake Object Defination
 	function snake(x,y,len,isPlayer,_ct) {
 		this.score = 0;
-		this.speed = 2;
+		this.speed = 4;
 		this.curSpeed = this.speed ;
 		this.x = x;
 		this.y = y;
@@ -164,7 +164,7 @@
 			var vx = 0,vy = 0;
 			/* check direction */
 			if(this.isPlayer) this.ret = str;
-			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 3;
+			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 2;
 			else this.curSpeed = this.speed;
 			
 			switch(str) {
