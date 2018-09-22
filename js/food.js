@@ -6,20 +6,15 @@ var colors = [];
 	colors.push("#0F5E8C"); 
 
 /*food object*/
-function food(x,y,_bg) {
-	this.x = x;
-	this.y = y;
-	this.bg = _bg;
-	this.mass = Math.floor((Math.random() * 4)+ 3);
-	this.color = colors[Math.floor(Math.random() * colors.length)];
-	this.show = () => {
+class food {
+	show() {
 		this.bg.fillStyle = this.color;
 		this.bg.beginPath();
 		this.bg.arc(this.x,this.y,this.mass,0,circ);
 		this.bg.fill();
 		this.bg.closePath();
 	}
-	this.clear = () => {
+	clear() {
 		this.bg.beginPath();
 		this.bg.arc(this.x,this.y,this.mass+1,0,circ);
 		this.bg.save();
@@ -29,5 +24,12 @@ function food(x,y,_bg) {
 		this.bg.restore();
 		this.bg.closePath();
 	}
-	this.show();
+	constructor(x,y,_bg) {
+		this.x = x;
+		this.y = y;
+		this.bg = _bg;
+		this.mass = Math.floor((Math.random() * 4)+ 3);
+		this.color = colors[Math.floor(Math.random() * colors.length)];
+		this.show();
+	}
 }

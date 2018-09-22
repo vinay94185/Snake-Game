@@ -17,55 +17,55 @@
 	
 		
 	// Snake Object Defination
-	function snake(x,y,len,isPlayer,_ct) {
-		this.score = 0;
-		this.speed = 4;
-		this.x = x;
-		this.y = y;
-		this.eyeX = 0;
-		this.eyeY = 0;
-		this.trail = []; // tail
-		this.foodtrack = [];
-		this.len = len; // length of tail in begnining
-		this.block = 9; // size of snake block's
-		this.halfblock = Math.floor(this.block/2);
-		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
-		this.isPlayer = isPlayer;
-		this.dashboost = false;
-		this.innetEyeX = 0;
-		this.innetEyeY = 0;
-		this.innerEye = 0;
-		this.ct = _ct;
-
-
-		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
-		this.count = 0; //counter for max count
-		this.mv = Math.floor((Math.random() * 4)+1); // random move
-		this.ret = undefined; // returned direction will be stored here
-		this.DirAvoid = true;
-		this.op = Math.floor(Math.random() * 7);
-		this.eating = 0;
-		this.ms = 2;
-		this.me = 1;
+	class snake {
+		constructor(x,y,len,isPlayer,_ct) {
+			this.score = 0;
+			this.speed = 4;
+			this.x = x;
+			this.y = y;
+			this.eyeX = 0;
+			this.eyeY = 0;
+			this.trail = []; // tail
+			this.foodtrack = [];
+			this.len = len; // length of tail in begnining
+			this.block = 9; // size of snake block's
+			this.halfblock = Math.floor(this.block/2);
+			this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
+			this.isPlayer = isPlayer;
+			this.dashboost = false;
+			this.innetEyeX = 0;
+			this.innetEyeY = 0;
+			this.innerEye = 0;
+			this.ct = _ct;
+			this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
+			this.count = 0; //counter for max count
+			this.mv = Math.floor((Math.random() * 4)+1); // random move
+			this.ret = undefined; // returned direction will be stored here
+			this.DirAvoid = true;
+			this.op = Math.floor(Math.random() * 7);
+			this.eating = 0;
+			this.ms = 2;
+			this.me = 1;
 		
-		/*
-		** Set the Cordinate's of the snake
-		** TODO : Direction randomization
-		*/
-		for(var i = 0;i<this.len;++i) {
-			this.trail[i] = new trail();
-			if(i) {
-				while(GetDistance(this.x,this.y,this.trail[i-1].x,this.trail[i-1].y) >= this.halfblock) {
-					++x;		
+			/*
+			** Set the Cordinate's of the snake
+			** TODO : Direction randomization
+			*/
+			for(var i = 0;i<this.len;++i) {
+				this.trail[i] = new trail();
+				if(i) {
+					while(GetDistance(this.x,this.y,this.trail[i-1].x,this.trail[i-1].y) >= this.halfblock) {
+						++x;		
+					}
 				}
+				this.trail[i].x = x;
+				this.trail[i].y = y;
+				
 			}
-			this.trail[i].x = x;
-			this.trail[i].y = y;
 			
 		}
-		
 		/* Display snake on the felid */
-		this.show = () => {
+		show() {
 			var tmp_len = this.len - 1;
 			this.shineColor = this.color +this.op +'A';
 			
@@ -147,7 +147,7 @@
 			}
 		}
 		
-		this.flash = (i) => {
+		flash(i) {
 					if(i%100 == 0) ++this.op;
 					if(this.op > 9) this.op = 1;
 					this.ct.fillStyle = this.shineColor;
@@ -159,7 +159,7 @@
 		}
 		
 		/* Move the snake */
-		this.move = (str) => {
+		move(str) {
 			var vx = 0,vy = 0;
 			/* check direction */
 			if(this.isPlayer) this.ret = str;
@@ -222,14 +222,14 @@
 		}
 		
 		// display the name of the player on screen
-		this.name = (name) => {
+		name(name) {
 			this.ct.font = "20px Arial";
 			this.ct.fillStyle = "black";
 			this.ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
 		}			
 		
 			/* Function to move the snake randomly */
-			this.randMove = () => {
+			randMove() {
 				/* 
 				** To make the randomness less aggressive
 				** We only change direction after a certian 
@@ -253,7 +253,7 @@
 				this.move(this.ret);
 			}
 						
-			this.eat = (mass) => {
+			eat(mass) {
 			this.foodtrack.shift();
 			if(Math.floor((this.score + mass)/15) > Math.floor(this.score/15)) {
 			this.len += 1;
@@ -281,7 +281,7 @@
 				this.eating = 2;
 			}
 			
-			this.colliide = (others) => {
+			colliide(others) {
 				for(let i=0,n = others.length;i<n;++i) {
 					const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
 					if(this === others[i]) continue;
@@ -294,7 +294,7 @@
 				return false;
 			}
 			
-			this.die = () => {
+			die() {
 				this.trail.forEach (trail => {
 					const x = Math.floor(trail.x + (Math.random() * this.block));
 					const y = Math.floor(trail.y + (Math.random() * this.block));
@@ -302,7 +302,7 @@
 				});
 
 			}
-			this.avoid = () => {
+			avoid() {
 				if(this.isPlayer) {
 						return 0;
 				} else {
@@ -316,7 +316,14 @@
 				}
 			}
 			
-			this.eatlist = (x,y) => {
+			clearfood() {
+				if(this.foodtrack != undefined) {
+					this.foodtrack.splice(0,this.foodtrack.length);
+				}
+				setTimeout(clearfood,1000);
+			}
+			
+			eatlist(x,y) {
 				if(!this.isPlayer)  {
 				let alreadyin = false;
 				for(let i=0,max = this.foodtrack.length;i<max;++i) {
@@ -334,14 +341,7 @@
 				}					
 			}
 			
-			this.clearfood = (function() {
-				if(this.foodtrack != undefined) {
-					this.foodtrack.splice(0,this.foodtrack.length);
-				}
-				setTimeout(this.clearfood,1000);
-			})();
-			
-			this.smartMove = () => {
+			smartMove() {
 				this.time = new Date();
 				
 				if(this.oldtime === undefined) { 
