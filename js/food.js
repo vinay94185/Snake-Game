@@ -24,7 +24,8 @@ function food(x,y,_bg) {
 		this.bg.arc(this.x,this.y,this.mass+1,0,circ);
 		this.bg.save();
 		this.bg.clip();
-		this.bg.clearRect(0,0,mapWidth,mapHeight);
+		this.bg.fillStyle = pattern;
+		this.bg.fillRect(0,0,mapWidth,mapHeight);
 		this.bg.restore();
 		this.bg.closePath();
 	}

@@ -22,11 +22,11 @@ function Checktrail(me,oth,block) {
 	
 function setfood(x = 0,y = 0) {
 	if(x+y != 0) {			
-		edible.push(new food(x,y,bg));
+		edible.push(new food(x,y,bp));
 	} else {
 		x = Math.floor((Math.random() * mapWidth));
 		y = Math.floor((Math.random() * mapHeight));
-		edible.push(new food(x,y,bg));
+		edible.push(new food(x,y,bp));
 	}
 }	
 	
@@ -45,9 +45,7 @@ function displayScore() {
 
 function draw() {
 	ctx.clearRect(0,0,WindowWidth,WindowHeight);
-	bgx.clearRect(0,0,WindowWidth,WindowHeight);
 	bpx.clearRect(0,0,WindowWidth,WindowHeight);
-	bgx.drawImage(foodbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 }
@@ -59,8 +57,6 @@ function screenChange() {
 	WindowHeight = window.innerHeight;
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
-	Back.width = WindowWidth;
-	Back.height = WindowHeight;	
 	patBack.height = WindowHeight;
 	patBack.width = WindowWidth;
 }
