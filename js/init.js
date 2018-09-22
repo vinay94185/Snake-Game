@@ -12,6 +12,7 @@ let foodbuff;
 let patbuff;
 let ct,bg,bp;
 let backgroundImage = new Image();	
+let img = new Image();	
 let Screen,Back,patBack;
 let ctx,bgx,bpx;
 let edible = [];
@@ -20,7 +21,7 @@ let score = 0;
 let playerGo = 'right';
 let frame;
 let gameon = false;
-let pattern;
+let pattern,lava;
 let running = false;
 	
 function init() {
@@ -52,4 +53,9 @@ function init() {
 		bp.fillStyle = pattern;
 		bp.fillRect(0,0,mapWidth,mapHeight);
 	}
+	img.src = './data/lava.png';
+	img.onload = () => {
+		lava = bp.createPattern(img, 'repeat');
+	}
+	
 }
