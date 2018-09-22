@@ -1,9 +1,10 @@
-var colors = [];
-	colors.push("#E23A59"); 
-	colors.push("#44ADAD"); 
-	colors.push("#3E506B"); 
-	colors.push("#FCC82B"); 
-	colors.push("#0F5E8C"); 
+let colors = [
+	"#E23A59", 
+	"#44ADAD", 
+	"#3E506B", 
+	"#FCC82B", 
+	"#0F5E8C"
+];
 
 /*food object*/
 class food {

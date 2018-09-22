@@ -2,13 +2,13 @@
 	** Array of color's for snake's 
 	** And for food.
 	*/
-	var Snakecolors = [];
-		Snakecolors.push("#58B7B8");
-		Snakecolors.push("#F8CE3D");
-		Snakecolors.push("#DF6127");
-		Snakecolors.push("#FE7F2D");
-		Snakecolors.push("#12403E");
-		
+	let Snakecolors = [
+		"#58B7B8",
+		"#F8CE3D",
+		"#DF6127",
+		"#FE7F2D",
+		"#12403E"
+	];
 	// A Structure to store x and y cordnate's effectively
 	function trail(x = 0, y = 0) {
 		this.x = x;
