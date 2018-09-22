@@ -20,7 +20,6 @@
 	function snake(x,y,len,isPlayer,_ct) {
 		this.score = 0;
 		this.speed = 4;
-		this.curSpeed = this.speed ;
 		this.x = x;
 		this.y = y;
 		this.eyeX = 0;
@@ -164,46 +163,45 @@
 			var vx = 0,vy = 0;
 			/* check direction */
 			if(this.isPlayer) this.ret = str;
-			if((dash && this.isPlayer) || this.dashboost) this.curSpeed = this.speed * 2;
-			else this.curSpeed = this.speed;
+			if((dash && this.isPlayer) || this.dashboost) this.loops = 2;
+			else this.loops = 1;
 			
 			switch(str) {
 				case 'right': 
-					vx = this.curSpeed;
+					vx = this.speed;
 					this.eyeX = 0;
 					this.eyeY = 5;
 					break;
 				case 'left':
-					vx = -this.curSpeed; 
+					vx = -this.speed; 
 					this.eyeX = 0;
 					this.eyeY = 5; 
 					break;
 				case 'up': 
-					vy = -this.curSpeed; 
+					vy = -this.speed; 
 					this.eyeX = 5;
 					this.eyeY = 0;
 					break;
 				case 'down': 
-					vy = this.curSpeed;
+					vy = this.speed;
 					this.eyeX = 5;
 					this.eyeY = 0;
 					break;
 			}
-
-				this.x += vx;
-				this.y += vy;
-			
-				// reduce the drawing and x/y cordinates storage load
-				if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
-					this.trail[0].x = this.x;
-					this.trail[0].y = this.y;
-			
-				for(var i = this.len-1;i > 0;--i) {
-					this.trail[i].x = this.trail[i-1].x;
-					this.trail[i].y = this.trail[i-1].y;
+			for(let loop=0;loop<this.loops;++loop) {
+					this.x += vx;
+					this.y += vy;			
+					// reduce the drawing and x/y cordinates storage load
+					if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
+						this.trail[0].x = this.x;
+						this.trail[0].y = this.y;
+				
+					for(var i = this.len-1;i > 0;--i) {
+						this.trail[i].x = this.trail[i-1].x;
+						this.trail[i].y = this.trail[i-1].y;
+					}
 				}
 			}
-			
 			
 			/*
 			** The following code will make sure that
@@ -266,10 +264,10 @@
 					vy = 0;
 							
 					switch(this.ret) {
-						case 'right': vx = this.curSpeed; break;
-						case 'left': vx = -this.curSpeed; break;
-						case 'up': vy = -this.curSpeed; break;
-						case 'down': vy = this.curSpeed; break;
+						case 'right': vx = this.speed; break;
+						case 'left': vx = -this.speed; break;
+						case 'up': vy = -this.speed; break;
+						case 'down': vy = this.speed; break;
 					}
 
 				this.trail.unshift(new trail(this.trail[0].x,this.trail[0].y));
