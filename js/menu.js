@@ -56,6 +56,7 @@ function beginGame() {
 		++smax;
 	}
 	gameon = true;
+	running = true;
 	ingame();
 	} else {
 		alert('Please Enter Yout Name and number of player\'s');

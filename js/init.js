@@ -21,6 +21,7 @@ let playerGo = 'right';
 let frame;
 let gameon = false;
 let pattern;
+let running = false;
 	
 function init() {
 	dash = false;
