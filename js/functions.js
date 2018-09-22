@@ -45,7 +45,8 @@ function displayScore() {
 
 function draw() {
 	ctx.clearRect(0,0,WindowWidth,WindowHeight);
-	bpx.clearRect(0,0,WindowWidth,WindowHeight);
+	bpx.fillStyle = "darkred";
+	bpx.fillRect(0,0,WindowWidth,WindowHeight);
 	ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 }

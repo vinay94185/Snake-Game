@@ -31,7 +31,7 @@ function init() {
 	patBack.height = WindowHeight;
 	patBack.width = WindowWidth;
 	ctx = Screen.getContext("2d");
-	bpx = patBack.getContext("2d");
+	bpx = patBack.getContext("2d", { alpha: false });
 	
 	backgroundImage.src = './data/square.png';	
 	
