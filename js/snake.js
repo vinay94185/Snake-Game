@@ -1,51 +1,3 @@
-window.addEventListener("load",Start);
-
-function Start() {
-	var WindowWidth = window.innerWidth;
-	var WindowHeight = window.innerHeight;
-	let Hgraphic = 0;
-	let dash = false;
-	var Screen = document.getElementById('gameScreen');
-	var Back = document.getElementById('gameBackground');
-	let patBack = document.getElementById('Background');
-	Screen.width = WindowWidth;
-	Screen.height = WindowHeight;
-	Back.width = WindowWidth;
-	Back.height = WindowHeight;
-	patBack.height = WindowHeight;
-	patBack.width = WindowWidth;
-	const ctx = Screen.getContext("2d");
-	const bgx = Back.getContext("2d");
-	const bpx = patBack.getContext("2d");
-	const circ = 2*Math.PI;
-	
-	let backgroundImage = new Image();
-	backgroundImage.src = './data/square.png';	
-	
-	// Adding Buffer
-	var buff = document.createElement('canvas');
-	var foodbuff = document.createElement('canvas');
-	var patbuff = document.createElement('canvas');
-	const mapWidth = 2000;
-	const mapHeight = 2000;
-	buff.width = mapWidth;
-	buff.height = mapHeight;
-	foodbuff.width = mapWidth;
-	foodbuff.height = mapHeight;
-	patbuff.width = mapWidth;
-	patbuff.height = mapHeight;
-	const ct = buff.getContext('2d');
-	const bg = foodbuff.getContext('2d');
-	const bp = patbuff.getContext('2d');
-	
-	//put background on map
-	backgroundImage.onload = () => {
-		let pattern = bp.createPattern(backgroundImage, 'repeat');
-		bp.fillStyle = pattern;
-		bp.fillRect(0,0,mapWidth,mapHeight);
-	}
-
-
 	/* 
 	** Array of color's for snake's 
 	** And for food.
@@ -56,44 +8,16 @@ function Start() {
 		Snakecolors.push("#DF6127");
 		Snakecolors.push("#FE7F2D");
 		Snakecolors.push("#12403E");
-	
-	var colors = [];
-		colors.push("#E23A59"); 
-		colors.push("#44ADAD"); 
-		colors.push("#3E506B"); 
-		colors.push("#FCC82B"); 
-		colors.push("#0F5E8C"); 
-	
+		
 	// A Structure to store x and y cordnate's effectively
 	function trail(x = 0, y = 0) {
 		this.x = x;
 		this.y = y;
 	}
 	
-	// check the whole trail for collision
-	function Checktrail(me,oth,block) {
-		let colstate = 0;
-		for(let i=0,n = oth.length;i!=n;++i) {
-			const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
-			if(dist <= 0) {	// colided
-				colstate = 1;
-				break; 
-			} else if(dist <= 50) { //may collide
-				colstate = 2;
-			}
-		}
-		return colstate;
-	}
-
-	//camera object
-	let cam = {
-	X:0,
-	Y:0,
-	follow: function (x,y) { this.X = x - (WindowWidth/2); this.Y = y - (WindowHeight/2);}
-	}
-	
+		
 	// Snake Object Defination
-	function snake(x,y,len,isPlayer) {
+	function snake(x,y,len,isPlayer,_ct) {
 		this.score = 0;
 		this.speed = 2;
 		this.curSpeed = this.speed ;
@@ -112,6 +36,7 @@ function Start() {
 		this.innetEyeX = 0;
 		this.innetEyeY = 0;
 		this.innerEye = 0;
+		this.ct = _ct;
 
 
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
@@ -145,20 +70,20 @@ function Start() {
 			var tmp_len = this.len - 1;
 			this.shineColor = this.color +this.op +'A';
 			
-			ct.fillStyle = this.color;
+			this.ct.fillStyle = this.color;
 			
 			for(var i=tmp_len;i>=0;--i) {
 				if(this.trail[i].x < cam.X || this.trail[i].y < cam.Y || this.trail[i].x > (cam.X + WindowWidth) || this.trail[i].y > (cam.Y + WindowHeight)) continue;
 				if((dash && this.isPlayer)||(this.dashboost)) this.flash(i);
 				if(i === 0) {
 					// head
-					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
-					ct.fill();
-					ct.closePath();
+					this.ct.beginPath();
+					this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
+					this.ct.fill();
+					this.ct.closePath();
 					//Mouth
 					if(this.eating) {
-						ct.beginPath();
+						this.ct.beginPath();
 						switch(this.ret) {
 							case 'up': 
 								this.ms = Math.PI * 1.20;
@@ -178,11 +103,11 @@ function Start() {
 							break;
 						}
 						
-						ct.arc(this.x,this.y,this.block-3,this.ms,this.me);
-						ct.lineWidth = 5;
-						ct.strokeStyle = "#8b0000";
-						ct.stroke();
-						ct.closePath();
+						this.ct.arc(this.x,this.y,this.block-3,this.ms,this.me);
+						this.ct.lineWidth = 5;
+						this.ct.strokeStyle = "#8b0000";
+						this.ct.stroke();
+						this.ct.closePath();
 						if(Hgraphic) ct.lineWidth = 1;
 						if(this.eating == 2) {
 							this.eating = 1;
@@ -191,15 +116,15 @@ function Start() {
 						}
 					}
 					//Outer eye
-					ct.beginPath();
-					ct.fillStyle = "white";
-					ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,4,0,circ);
-					ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,4,0,circ);
-					ct.fill();
-					ct.closePath();
+					this.ct.beginPath();
+					this.ct.fillStyle = "white";
+					this.ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,4,0,circ);
+					this.ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,4,0,circ);
+					this.ct.fill();
+					this.ct.closePath();
 					/* inner eye */
-					ct.beginPath();
-					ct.fillStyle = "black";
+					this.ct.beginPath();
+					this.ct.fillStyle = "black";
 					if(Hgraphic) ct.strokeStyle = "#0000003A";
 					switch(this.ret) {
 						case 'left': this.innerEye = 1; break;
@@ -209,16 +134,16 @@ function Start() {
 					}
 					if(this.eyeY)this.innetEyeX = this.innerEye; else this.innetEyeX = 0;
 					if(this.eyeX)this.innetEyeY = this.innerEye; else this.innetEyeY = 0;
-					ct.arc(this.trail[i].x-(this.eyeX + this.innetEyeX),this.trail[i].y-(this.eyeY + this.innetEyeY),2,0,circ);
-					ct.arc(this.trail[i].x+(this.eyeX - this.innetEyeX),this.trail[i].y+(this.eyeY - this.innetEyeY),2,0,circ);
-					ct.fill();					
-					ct.closePath();
+					this.ct.arc(this.trail[i].x-(this.eyeX + this.innetEyeX),this.trail[i].y-(this.eyeY + this.innetEyeY),2,0,circ);
+					this.ct.arc(this.trail[i].x+(this.eyeX - this.innetEyeX),this.trail[i].y+(this.eyeY - this.innetEyeY),2,0,circ);
+					this.ct.fill();					
+					this.ct.closePath();
 				} else {
-					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
-					ct.fill();
+					this.ct.beginPath();
+					this.ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
+					this.ct.fill();
 					if(Hgraphic) ct.stroke();
-					ct.closePath();			
+					this.ct.closePath();			
 				}
 			}
 		}
@@ -226,12 +151,12 @@ function Start() {
 		this.flash = (i) => {
 					if(i%100 == 0) ++this.op;
 					if(this.op > 9) this.op = 1;
-					ct.fillStyle = this.shineColor;
-					ct.beginPath();
-					ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
-					ct.fill();
-					ct.closePath();
-					ct.fillStyle = this.color;
+					this.ct.fillStyle = this.shineColor;
+					this.ct.beginPath();
+					this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
+					this.ct.fill();
+					this.ct.closePath();
+					this.ct.fillStyle = this.color;
 		}
 		
 		/* Move the snake */
@@ -300,9 +225,9 @@ function Start() {
 		
 		// display the name of the player on screen
 		this.name = (name) => {
-			ct.font = "20px Arial";
-			ct.fillStyle = "black";
-			ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
+			this.ct.font = "20px Arial";
+			this.ct.fillStyle = "black";
+			this.ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
 		}			
 		
 			/* Function to move the snake randomly */
@@ -469,235 +394,11 @@ function Start() {
 			}
 	} // end snake object
 	
-	/*food object*/
-	function food(x,y) {
-		this.x = x;
-		this.y = y;
-		this.mass = Math.floor((Math.random() * 4)+ 3);
-		this.color = colors[Math.floor(Math.random() * colors.length)];
-		this.show = () => {
-			bg.fillStyle = this.color;
-			bg.beginPath();
-			bg.arc(this.x,this.y,this.mass,0,circ);
-			bg.fill();
-			bg.closePath();
-		}
-		this.clear = () => {
-			bg.beginPath();
-			bg.arc(this.x,this.y,this.mass+1,0,circ);
-			bg.save();
-			bg.clip();
-			bg.clearRect(0,0,mapWidth,mapHeight);
-			bg.restore();
-			bg.closePath();
-		}
-		this.show();
-	}
-	
-	
-	/*******************
-	** MAIN GAME CODE ** 
-	********************/
-	
-	var x,y,len; // will be used initilize snake's position's
-	var snakes = [];
-	const MaxSnakes = 7; // max number of snake's
-	for(var i = 0;i<MaxSnakes ;++i) {
-		newSnake(false);
-	}
-	
-	/* Start Button for game */
-	document.getElementsByClassName('btnStyle')[0].addEventListener('click',beginGame);
-	
-	/* Menu for the Game */
-	var frame;
-	(function menu() {
-		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
-		for(var i=0; i<MaxSnakes;++i) {
-			snakes[i].randMove(); // Make a random move
-		}
-		draw();
-		frame = requestAnimationFrame(menu);
-	})();
-	
-	var playerGo = 'right';
-	var edible = [];
-	var gameon = false;
-	var sno = 0;
-	var smax,done = false;
-	var name;
-	let foodintr = null;
-	/*
-	** Function that beigin's the game and closes the menu
-	*/	
-	function beginGame() {
-		if(document.getElementById('name').value != '' && document.getElementById('num').value != '') {
-		document.getElementsByClassName('form')[0].style.display = 'none';
-		name = document.getElementById('name').value;
-		smax = parseInt(document.getElementById('num').value);
-		document.getElementById('name').blur();
-		document.getElementById('num').blur();
-		cancelAnimationFrame(frame);
-		if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
-		else while(snakes.length != smax) newSnake(false);
-		if(!foodintr) foodintr = setInterval(setfood,1000); 
-		if(!gameon) { 
-			newSnake(true);
-			++smax;
-		}
-		gameon = true;
-		ingame();
-		} else {
-			alert('Please Enter Yout Name and number of player\'s');
-		}
+//functions
 
-	}
-
-	let score = 0;
-	let frames = 0;
-	let fps = 0;
-	
-	function Resetfps() {
-		fps = frames;
-		frames = 0;
-	}
-	setInterval(Resetfps,1000);
-
-	/*****************
-	** Running game **
-	******************/
-	
-	function ingame() {
-		++frames;
-		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
-		
-		// show snakes
-		for(sno = 0; sno < smax;++sno) {
-			if(snakes[sno].isPlayer) { 
-				snakes[sno].move(playerGo);
-				snakes[sno].name(name);
-				cam.follow(snakes[sno].x,snakes[sno].y);
-				score = snakes[sno].score;
-			} else { 
-				snakes[sno].smartMove();
-			}
-			
-			// dettect collision
-			if(snakes[sno].colliide(snakes)) {
-			if(snakes[sno].isPlayer) {
-				snakes[sno].die();
-				gameon = false;
-				smax--;
-			} else {
-				snakes[sno].die();
-				newSnake(false);
-			}
-				snakes.splice(sno,1);
-				--sno;
-			}
-		}
-		
-		// eat food
-		for(var i=0,n = edible.length;i<n;++i) {
-				for(sno = 0; sno < smax;++sno) {				
-				const dis = GetDistance(snakes[sno].x,snakes[sno].y,edible[i].x,edible[i].y);
-				if(dis <= 20) {
-						snakes[sno].eat(edible[i].mass);
-						edible[i].clear();
-						edible.splice(i,1);
-						n = edible.length;
-						break;
-					}
-				if(dis <= 100) {
-						snakes[sno].eatlist(edible[i].x,edible[i].y);
-					}
-				}
-		}	
-		
-		draw();
-		displayScore();
-		if(!gameon) gameover();
-		frame = requestAnimationFrame(ingame);		
-	}
-
-	window.addEventListener('keydown',checkkey);
-	window.addEventListener('keyup',keyreset);
-	window.addEventListener('resize',screenChange);
-	
-	function checkkey(keyboard) {
-		switch(keyboard.key) {
-			case 'ArrowRight': playerGo = 'right'; break;
-			case 'ArrowLeft': playerGo = 'left'; break;
-			case 'ArrowUp': playerGo = 'up'; break;
-			case 'ArrowDown': playerGo = 'down'; break;
-			case 'Enter' : beginGame(); break;
-			case ' ' : dash = true; break; // spacebar
-		}
-	}
-	
-	function keyreset(keyboard) {
-		if(keyboard.key == ' ') dash = false;
-	}
-	
-	function setfood(x = 0,y = 0) {
-		if(x+y != 0) {			
-			edible.push(new food(x,y));
-		} else {
-			x = Math.floor((Math.random() * mapWidth));
-			y = Math.floor((Math.random() * mapHeight));
-			edible.push(new food(x,y));
-		}
-	}	
-	
-	function GetDistance(x1,y1,x2,y2) {
-			const disX = x1 - x2;
-			const disY = y1 - y2;
-			return Math.sqrt((disX * disX) + (disY*disY));
-	}
-	
-	function newSnake(isPlayer) {
-		x = Math.floor(Math.random() * mapWidth);
-		y = Math.floor(Math.random() * mapHeight);
-		len = Math.floor((Math.random() * 20) + 10);
-		snakes.push(new snake(x,y,len,isPlayer)); // make snake object
-	}
-	
-	function gameover() {
-		ctx.fillStyle = "Grey";
-		ctx.font = "60px Arial";
-		ctx.fillText('GameOver',(WindowWidth/2) - 120,(WindowHeight/2));
-	}
-	
-	function displayScore() {
-		ctx.fillStyle = "Grey";
-		ctx.font = "20px Arial";
-		ctx.fillText('Score : ' + score,20,50);
-		ctx.fillText('fps : ' + fps,WindowWidth - 100,50);
-	}
-	
-	function screenChange() {
-		WindowWidth = window.innerWidth;
-		WindowHeight = window.innerHeight;
-		Screen.width = WindowWidth;
-		Screen.height = WindowHeight;
-		Back.width = WindowWidth;
-		Back.height = WindowHeight;	
-		patBack.height = WindowHeight;
-		patBack.width = WindowWidth;
-	}
-	
-	function ChangeGraphics(x) {
-		Hgraphic = parseInt(x.value);
-	}	
-	
-	function draw() {
-		ctx.clearRect(0,0,WindowWidth,WindowHeight);
-		bgx.clearRect(0,0,WindowWidth,WindowHeight);
-		bpx.clearRect(0,0,WindowWidth,WindowHeight);
-		bgx.drawImage(foodbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
-		ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
-		bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
-	}
-	
-	Start.ChangeGraphics = ChangeGraphics;
+function newSnake(isPlayer) {
+	x = Math.floor(Math.random() * mapWidth);
+	y = Math.floor(Math.random() * mapHeight);
+	len = Math.floor((Math.random() * 20) + 10);
+	snakes.push(new snake(x,y,len,isPlayer,ct)); // make snake object
 }
