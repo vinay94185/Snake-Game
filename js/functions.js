@@ -31,13 +31,13 @@ function setfood(x = 0,y = 0) {
 }	
 	
 function gameover() {
-	ctx.fillStyle = "Grey";
+	ctx.fillStyle = "#000000";
 	ctx.font = "60px Arial";
 	ctx.fillText('GameOver',(WindowWidth/2) - 120,(WindowHeight/2));
 }
 
 function displayScore() {
-	ctx.fillStyle = "Grey";
+	ctx.fillStyle = "#000000";
 	ctx.font = "20px Arial";
 	ctx.fillText('Score : ' + score,20,50);
 	ctx.fillText('fps : ' + fps,WindowWidth - 100,50);

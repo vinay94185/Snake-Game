@@ -224,7 +224,7 @@
 		// display the name of the player on screen
 		name(name) {
 			this.ct.font = "20px Arial";
-			this.ct.fillStyle = "black";
+			this.ct.fillStyle = "#000000";
 			this.ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
 		}			
 		
