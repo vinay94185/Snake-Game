@@ -7,7 +7,7 @@ function Start() {
 	********************/
 	
 	var x,y,len; // will be used initilize snake's position's
-	const MaxSnakes = 7; // max number of snake's on menu
+	const MaxSnakes = 15; // max number of snake's on menu
 	for(var i = 0;i<MaxSnakes ;++i) {
 		newSnake(false);
 	}
