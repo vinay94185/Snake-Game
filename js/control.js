@@ -19,8 +19,9 @@ function keyreset(keyboard) {
 
 //touch screen controls for phone 
 
-window.addEventListener('touchstart',touchbegin);
-window.addEventListener('touchmove',touching);
+window.addEventListener('touchstart',touchbegin,{ passive: false });
+window.addEventListener('touchmove',touching,{ passive: false });
+window.addEventListener('touchcancle',notouch);
 window.addEventListener('touchend',touchstop);
 let sx,sy,
 	ex = 0,
@@ -34,41 +35,53 @@ let sx,sy,
 	
 let mvx = 0,
 	mvy = 0;	
+let sw_dash = false;
 
-
+function notouch() {
+	alert('cancles');
+}
 function touchbegin(touch) {
-	stime = touch.timeStamp;
-	sx = touch.touches[0].pageX; 
-	sy = touch.touches[0].pageY;
-	if(controlmode === 2) {
-		if(sx > Xcenter) {
-			if(gameon&& running) dash = (dash) ? false : true;
-		} else {
-			moveable = true;
-		}
-	} else if(controlmode === 3) {
-		if(sx < Xcenter && sy > Ycenter) {
-			Xctr = sx;
-			Yctr = sy;
-			moveable = true;
-		} else if(sx > Xcenter) {
-			if(gameon&& running) dash = (dash) ? false : true;
+	if(moveable) {
+		touch.preventDefault()
+		const ss = touch.touches[touch.touches.length-1].pageX;
+		if(gameon && running && (ss > Xcenter)) dash = (dash) ? false : true;
+		sw_dash = true;
+	} else {
+		stime = touch.timeStamp;
+		sx = touch.touches[0].pageX;
+		sy = touch.touches[0].pageY;
+
+		if(controlmode === 2) {
+			if(sx > Xcenter) {
+				if(gameon&& running) dash = (dash) ? false : true;
+			} else {
+				moveable = true;
+			}
+		} else if(controlmode === 3) {
+			if(sx < Xcenter && sy > Ycenter && !(moveable)) {
+				Xctr = sx;
+				Yctr = sy;
+				moveable = true;
+			} else if((sx > Xcenter) || (sx2 > Xcenter)) {
+				if(gameon&& running) dash = (dash) ? false : true;
+			}
 		}
 	}
 }
 
 function touching(touch) {
-	ex = touch.touches[0].pageX; 
-	ey = touch.touches[0].pageY;
-	if(moveable) {
-		mvx = ((ex - Xctr)/50);
-		mvy = ((ey - Yctr)/50);
-		/* to ensure that snake won't go faster than max speed */
-		mvx = (mvx > 1) ? 1 : mvx;
-		mvx = (mvx < -1) ? -1 : mvx;
-		mvy = (mvy > 1) ? 1 : mvy;	
-		mvy = (mvy < -1) ? -1 : mvy;	
-	}
+	touch.preventDefault();
+		ex = touch.touches[0].pageX; 
+		ey = touch.touches[0].pageY;
+		if(controlmode === 3) {
+			mvx = ((ex - Xctr)/50);
+			mvy = ((ey - Yctr)/50);
+			/* to ensure that snake won't go faster than max speed */
+			mvx = (mvx > 1) ? 1 : mvx;
+			mvx = (mvx < -1) ? -1 : mvx;
+			mvy = (mvy > 1) ? 1 : mvy;	
+			mvy = (mvy < -1) ? -1 : mvy;	
+		}
 }
 
 function touchstop(touch) {
@@ -88,6 +101,6 @@ function touchstop(touch) {
 		moveable = false;
 	}
 	} else if(controlmode === 3) {
-		moveable = false;
+		if(!sw_dash) moveable = false;
 	}
 }
