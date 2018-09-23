@@ -232,6 +232,7 @@
 			
 		colliide(others) {
 			if((this.x > mapWidth) || (this.x < 0) || (this.y > mapHeight) || (this.y < 0)) return true;
+			if((this.x > (mapWidth-20)) || (this.x < 20) || (this.y > (mapHeight-20)) || (this.y < 20)) this.avoid();
 			for(let i=0,n = others.length;i<n;++i) {
 				const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
 				if(this === others[i]) continue;
