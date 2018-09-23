@@ -55,7 +55,8 @@
 	display:inline-block;
 }
 
-.form #graphics {
+.form #graphics,
+.form #control {
 	margin-left:80px;
 	margin-bottom:10px;
 	padding: 4px 5px;

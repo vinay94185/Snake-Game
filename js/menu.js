@@ -28,8 +28,12 @@ function Start() {
 	function ChangeGraphics(x) {
 		Hgraphic = parseInt(x.value);
 	}	
+	function ChangeControl(x) {
+		controlmode = parseInt(x.value);
+	}
 	
 	Start.ChangeGraphics = ChangeGraphics;
+	Start.ChangeControl = ChangeControl;
 }
 
 /*

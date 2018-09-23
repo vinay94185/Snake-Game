@@ -1,8 +1,6 @@
 window.addEventListener('keydown',checkkey);
 window.addEventListener('keyup',keyreset);
 
-let controlmode = 3;
-
 function checkkey(keyboard) {
 	switch(keyboard.key) {
 		case 'ArrowRight': playerGo = 'right'; break;

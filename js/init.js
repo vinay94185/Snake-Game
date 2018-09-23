@@ -23,6 +23,7 @@ let frame;
 let gameon = false;
 let pattern,lava;
 let running = false;
+let controlmode = 0;
 	
 function init() {
 	dash = false;
