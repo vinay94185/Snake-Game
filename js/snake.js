@@ -168,21 +168,6 @@
 				}
 			}
 			
-			/*
-			** The following code will make sure that
-			** If the snake goes out of map then 
-			** it will come back from other side of 
-			** the map.
-			*/
-			if(this.x > mapWidth) {
-				this.x = 0;
-			} else if(this.x < 0) {
-				this.x = mapWidth;
-			} else if (this.y > mapHeight) {
-				this.y = 0;
-			} else if (this.y < 0) {
-				this.y = mapHeight;
-			}
 			this.show(); // since snake is moved display it on new position
 		}
 		
@@ -246,6 +231,7 @@
 		}
 			
 		colliide(others) {
+			if((this.x > mapWidth) || (this.x < 0) || (this.y > mapHeight) || (this.y < 0)) return true;
 			for(let i=0,n = others.length;i<n;++i) {
 				const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
 				if(this === others[i]) continue;
