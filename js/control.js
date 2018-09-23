@@ -21,7 +21,6 @@ function keyreset(keyboard) {
 
 window.addEventListener('touchstart',touchbegin,{ passive: false });
 window.addEventListener('touchmove',touching,{ passive: false });
-window.addEventListener('touchcancle',notouch);
 window.addEventListener('touchend',touchstop);
 let sx,sy,
 	ex = 0,
@@ -37,9 +36,6 @@ let mvx = 0,
 	mvy = 0;	
 let sw_dash = false;
 
-function notouch() {
-	alert('cancles');
-}
 function touchbegin(touch) {
 	if(moveable) {
 		touch.preventDefault()
