@@ -21,7 +21,7 @@ let score = 0;
 let playerGo = 'right';
 let frame;
 let gameon = false;
-let pattern,lava;
+let pattern;
 let running = false;
 let controlmode = 0;
 	
@@ -54,9 +54,4 @@ function init() {
 		bp.fillStyle = pattern;
 		bp.fillRect(0,0,mapWidth,mapHeight);
 	}
-	img.src = './data/lava.png';
-	img.onload = () => {
-		lava = bp.createPattern(img, 'repeat');
-	}
-	
 }
