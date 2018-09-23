@@ -5,7 +5,11 @@ function ingame() {
 	// show snakes
 	for(sno = 0; sno < smax;++sno) {
 		if(snakes[sno].isPlayer) { 
+		if(controlmode === 3) {
+			snakes[sno].moveI(mvx,mvy);
+		} else {
 			snakes[sno].move(playerGo);
+		}
 			snakes[sno].name(name);
 			cam.follow(snakes[sno].x,snakes[sno].y);
 			score = snakes[sno].score;

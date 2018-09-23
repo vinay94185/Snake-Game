@@ -23,8 +23,6 @@
 			this.speed = 4;
 			this.x = x;
 			this.y = y;
-			this.eyeX = 0;
-			this.eyeY = 0;
 			this.trail = []; // tail
 			this.foodtrack = [];
 			this.len = len; // length of tail in begnining
@@ -33,9 +31,6 @@
 			this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 			this.isPlayer = isPlayer;
 			this.dashboost = false;
-			this.innetEyeX = 0;
-			this.innetEyeY = 0;
-			this.innerEye = 0;
 			this.ct = _ct;
 			this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 			this.count = 0; //counter for max count
@@ -44,8 +39,6 @@
 			this.DirAvoid = true;
 			this.op = Math.floor(Math.random() * 7);
 			this.eating = 0;
-			this.ms = 2;
-			this.me = 1;
 		
 			/*
 			** Set the Cordinate's of the snake
@@ -83,29 +76,14 @@
 					//Mouth
 					if(this.eating) {
 						this.ct.beginPath();
-						switch(this.ret) {
-							case 'up': 
-								this.ms = Math.PI * 1.20;
-								this.me = Math.PI * 1.80;
-							break;
-							case 'down': 
-								this.ms = Math.PI * 0.20;
-								this.me = Math.PI * 0.80;
-							break;
-							case 'left': 
-								this.ms = Math.PI * 0.60;
-								this.me = Math.PI * 1.30;
-							break;
-							case 'right': 
-								this.ms = Math.PI * 1.60;
-								this.me = Math.PI * 0.30;
-							break;
-						}
-						
-						this.ct.arc(this.x,this.y,this.block-3,this.ms,this.me);
+						this.ct.save();
+						this.ct.translate(this.trail[0].x,this.trail[0].y);
+						this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));						
+						this.ct.arc(0,0,this.block-3,Math.PI * 0.5,Math.PI * 1.5);
 						this.ct.lineWidth = 5;
 						this.ct.strokeStyle = "#8b0000";
 						this.ct.stroke();
+						this.ct.restore();
 						this.ct.closePath();
 						if(Hgraphic) ct.lineWidth = 1;
 						if(this.eating == 2) {
@@ -117,25 +95,24 @@
 					//Outer eye
 					this.ct.beginPath();
 					this.ct.fillStyle = "white";
-					this.ct.arc(this.trail[i].x-this.eyeX,this.trail[i].y-this.eyeY,4,0,circ);
-					this.ct.arc(this.trail[i].x+this.eyeX,this.trail[i].y+this.eyeY,4,0,circ);
+					this.ct.save();
+					this.ct.translate(this.trail[0].x,this.trail[0].y);
+					this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));
+					this.ct.arc(0,5,4,0,circ);
+					this.ct.arc(0,-5,4,0,circ);
+					this.ct.restore();
 					this.ct.fill();
 					this.ct.closePath();
 					/* inner eye */
 					this.ct.beginPath();
 					this.ct.fillStyle = "black";
-					if(Hgraphic) ct.strokeStyle = "#0000003A";
-					switch(this.ret) {
-						case 'left': this.innerEye = 1; break;
-						case 'right': this.innerEye = -1; break;
-						case 'up': this.innerEye = 1; break;
-						case 'down': this.innerEye = -1; break;
-					}
-					if(this.eyeY)this.innetEyeX = this.innerEye; else this.innetEyeX = 0;
-					if(this.eyeX)this.innetEyeY = this.innerEye; else this.innetEyeY = 0;
-					this.ct.arc(this.trail[i].x-(this.eyeX + this.innetEyeX),this.trail[i].y-(this.eyeY + this.innetEyeY),2,0,circ);
-					this.ct.arc(this.trail[i].x+(this.eyeX - this.innetEyeX),this.trail[i].y+(this.eyeY - this.innetEyeY),2,0,circ);
-					this.ct.fill();					
+					this.ct.save();
+					this.ct.translate(this.trail[0].x,this.trail[0].y);
+					this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));
+					this.ct.arc(-2,5,2,0,circ);
+					this.ct.arc(-2,-5,2,0,circ);
+					this.ct.fill();
+					this.ct.restore();
 					this.ct.closePath();
 				} else {
 					this.ct.beginPath();
@@ -148,14 +125,14 @@
 		}
 		
 		flash(i) {
-					if(i%100 == 0) ++this.op;
-					if(this.op > 9) this.op = 1;
-					this.ct.fillStyle = this.shineColor;
-					this.ct.beginPath();
-					this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
-					this.ct.fill();
-					this.ct.closePath();
-					this.ct.fillStyle = this.color;
+			if(i%100 == 0) ++this.op;
+			if(this.op > 9) this.op = 1;
+			this.ct.fillStyle = this.shineColor;
+			this.ct.beginPath();
+			this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
+			this.ct.fill();
+			this.ct.closePath();
+			this.ct.fillStyle = this.color;
 		}
 		
 		/* Move the snake */
@@ -167,39 +144,40 @@
 			else this.loops = 1;
 			
 			switch(str) {
-				case 'right': 
-					vx = this.speed;
-					this.eyeX = 0;
-					this.eyeY = 5;
-					break;
-				case 'left':
-					vx = -this.speed; 
-					this.eyeX = 0;
-					this.eyeY = 5; 
-					break;
-				case 'up': 
-					vy = -this.speed; 
-					this.eyeX = 5;
-					this.eyeY = 0;
-					break;
-				case 'down': 
-					vy = this.speed;
-					this.eyeX = 5;
-					this.eyeY = 0;
-					break;
+				case 'right': vx = this.speed; break;
+				case 'left': vx = -this.speed; break;
+				case 'up': vy = -this.speed; break;
+				case 'down': vy = this.speed; break;
 			}
+			
 			for(let loop=0;loop<this.loops;++loop) {
-					this.x += vx;
-					this.y += vy;			
-					// reduce the drawing and x/y cordinates storage load
-					if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
-						this.trail[0].x = this.x;
-						this.trail[0].y = this.y;
-				
-					for(var i = this.len-1;i > 0;--i) {
-						this.trail[i].x = this.trail[i-1].x;
-						this.trail[i].y = this.trail[i-1].y;
-					}
+				this.act(vx,vy);
+			}
+		}
+		
+		moveI(x,y) {
+			if((dash && this.isPlayer) || this.dashboost) this.loops = 2;
+			else this.loops = 1;
+
+			let vx = this.speed * x;
+			let vy = this.speed * y;
+
+			for(let loop=0;loop<this.loops;++loop) {
+				this.act(vx,vy);
+			}
+		}
+		
+		act(vx,vy) {
+			this.x += vx;
+			this.y += vy;			
+			// reduce the drawing and x/y cordinates storage load
+			if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
+				this.trail[0].x = this.x;
+				this.trail[0].y = this.y;
+		
+			for(var i = this.len-1;i > 0;--i) {
+				this.trail[i].x = this.trail[i-1].x;
+				this.trail[i].y = this.trail[i-1].y;
 				}
 			}
 			
@@ -229,31 +207,30 @@
 		}			
 		
 			/* Function to move the snake randomly */
-			randMove() {
-				/* 
-				** To make the randomness less aggressive
-				** We only change direction after a certian 
-				** Amount of time has passed.
-				*/
-				if(this.count > this.countMax) {
-					this.mv = Math.floor((Math.random() * 4)+1);
-					this.count = 0;
-					this.DirAvoid = true;
-				} else { 
-					this.count++;
-				}
-				
-				switch(this.mv) {
-					case 1: this.ret = 'left'; break;
-					case 2: this.ret = 'right'; break;
-					case 3: this.ret = 'up'; break;
-					case 4: this.ret = 'down'; break;
-				} 
-
+		randMove() {
+			/* 
+			** To make the randomness less aggressive
+			** We only change direction after a certian 
+			** Amount of time has passed.
+			*/
+			if(this.count > this.countMax) {
+				this.mv = Math.floor((Math.random() * 4)+1);
+				this.count = 0;
+				this.DirAvoid = true;
+			} else { 
+				this.count++;
+			}
+			
+			switch(this.mv) {
+				case 1: this.ret = 'left'; break;
+				case 2: this.ret = 'right'; break;
+				case 3: this.ret = 'up'; break;
+				case 4: this.ret = 'down'; break;
+			} 
 				this.move(this.ret);
 			}
 						
-			eat(mass) {
+		eat(mass) {
 			this.foodtrack.shift();
 			if(Math.floor((this.score + mass)/15) > Math.floor(this.score/15)) {
 			this.len += 1;
@@ -279,77 +256,77 @@
 				
 				} else { this.score += mass; }	
 				this.eating = 2;
-			}
+		}
 			
-			colliide(others) {
-				for(let i=0,n = others.length;i<n;++i) {
-					const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
-					if(this === others[i]) continue;
-					if(ret === 1) {
-						return true;
-					} else if(ret === 2) {
-						if(this.DirAvoid) this.avoid();
-					}
+		colliide(others) {
+			for(let i=0,n = others.length;i<n;++i) {
+				const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
+				if(this === others[i]) continue;
+				if(ret === 1) {
+					return true;
+				} else if(ret === 2) {
+					if(this.DirAvoid) this.avoid();
 				}
-				return false;
 			}
+			return false;
+		}
 			
-			die() {
-				this.trail.forEach (trail => {
-					const x = Math.floor(trail.x + (Math.random() * this.block));
-					const y = Math.floor(trail.y + (Math.random() * this.block));
-					setfood(x,y);
-				});
+		die() {
+			this.trail.forEach (trail => {
+				const x = Math.floor(trail.x + (Math.random() * this.block));
+				const y = Math.floor(trail.y + (Math.random() * this.block));
+				setfood(x,y);
+			});
 
+		}
+		avoid() {
+			if(this.isPlayer) {
+					return 0;
+			} else {
+				this.DirAvoid = false;
+				switch(this.ret) {
+					case 'left': this.mv = 2; this.ret = 'right'; break;
+					case 'right': this.mv = 1; this.ret = 'left'; break;
+					case 'up': this.mv = 4; this.ret = 'down'; break;
+					case 'down': this.mv = 3; this.ret = 'up'; break;
+				}
 			}
-			avoid() {
-				if(this.isPlayer) {
-						return 0;
+		}
+			
+		clearfood() {
+			if(this.foodtrack != undefined) {
+				this.foodtrack.splice(0,this.foodtrack.length);
+			}
+			setTimeout(clearfood,1000);
+		}
+			
+		eatlist(x,y) {
+			if(!this.isPlayer)  {
+			let alreadyin = false;
+			for(let i=0,max = this.foodtrack.length;i<max;++i) {
+				if(this.foodtrack[i].x == x && this.foodtrack[i].y == y) {
+					alreadyin = true;
+					break;
+				}
+			}
+			if(!alreadyin) this.foodtrack.push(new trail(x,y));
+				if(this.foodtrack.length > 20) {
+					this.dashboost = true;
 				} else {
-					this.DirAvoid = false;
-					switch(this.ret) {
-						case 'left': this.mv = 2; this.ret = 'right'; break;
-						case 'right': this.mv = 1; this.ret = 'left'; break;
-						case 'up': this.mv = 4; this.ret = 'down'; break;
-						case 'down': this.mv = 3; this.ret = 'up'; break;
-					}
+					this.dashboost = false;
 				}
-			}
+			}					
+		}
 			
-			clearfood() {
-				if(this.foodtrack != undefined) {
-					this.foodtrack.splice(0,this.foodtrack.length);
+		smartMove() {
+			this.time = new Date();
+			
+			if(this.oldtime === undefined) { 
+				this.oldtime = this.time; 
+				this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()+250);
+				if(this.oldtime.getMilliseconds() > 950)  {
+					this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()-50)
 				}
-				setTimeout(clearfood,1000);
-			}
-			
-			eatlist(x,y) {
-				if(!this.isPlayer)  {
-				let alreadyin = false;
-				for(let i=0,max = this.foodtrack.length;i<max;++i) {
-					if(this.foodtrack[i].x == x && this.foodtrack[i].y == y) {
-						alreadyin = true;
-						break;
-					}
-				}
-				if(!alreadyin) this.foodtrack.push(new trail(x,y));
-					if(this.foodtrack.length > 20) {
-						this.dashboost = true;
-					} else {
-						this.dashboost = false;
-					}
-				}					
-			}
-			
-			smartMove() {
-				this.time = new Date();
-				
-				if(this.oldtime === undefined) { 
-					this.oldtime = this.time; 
-					this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()+250);
-					if(this.oldtime.getMilliseconds() > 950)  {
-						this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()-50)
-					}
 
 				} else if(this.time.getMilliseconds() > (this.oldtime.getMilliseconds())) {
 					this.oldtime = this.time;

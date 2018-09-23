@@ -4,6 +4,13 @@ function GetDistance(x1,y1,x2,y2) {
 		return Math.sqrt((disX * disX) + (disY*disY));
 }
 
+// get the angle between previous position and new position
+function getAngle(last_x,last_y,new_x,new_y) {
+	let x = last_x - new_x;
+	let y = last_y - new_y;
+	return Math.atan2(y,x);
+}
+
 // check the whole trail for collision
 function Checktrail(me,oth,block) {
 	let colstate = 0;
@@ -49,6 +56,19 @@ function draw() {
 	bpx.fillRect(0,0,WindowWidth,WindowHeight);
 	ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
 	bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
+	if(controlmode === 3 && moveable) {
+		ctx.beginPath();
+		ctx.arc(Xctr,Yctr,50,0,circ);
+		ctx.closePath();
+		ctx.strokeStyle = "#ffffffaa";
+		ctx.lineWidth = 3;
+		ctx.stroke();
+		ctx.beginPath();
+		ctx.arc(ex,ey,10,0,circ);
+		ctx.closePath();
+		ctx.fillStyle = "#ffffffaa";
+		ctx.fill();
+	}
 }
 
 window.addEventListener('resize',screenChange);
@@ -60,6 +80,8 @@ function screenChange() {
 	Screen.height = WindowHeight;
 	patBack.height = WindowHeight;
 	patBack.width = WindowWidth;
+	Xcenter = window.innerWidth/2;
+	Ycenter = window.innerHeight/2;
 }
 
 let frames = 0;
