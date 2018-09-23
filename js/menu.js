@@ -59,6 +59,6 @@ function beginGame() {
 	running = true;
 	ingame();
 	} else {
-		alert('Please Enter Yout Name and number of player\'s');
+		alert('Please Enter Your Name and number of Snake\'s');
 	}
 }
