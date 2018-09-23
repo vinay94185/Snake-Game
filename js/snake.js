@@ -37,7 +37,6 @@
 			this.mv = Math.floor((Math.random() * 4)+1); // random move
 			this.ret = undefined; // returned direction will be stored here
 			this.DirAvoid = true;
-			this.op = Math.floor(Math.random() * 7);
 			this.eating = 0;
 		
 			/*
@@ -59,14 +58,13 @@
 		}
 		/* Display snake on the felid */
 		show() {
-			var tmp_len = this.len - 1;
-			this.shineColor = this.color +this.op +'A';
-			
+			var tmp_len = this.len - 1;			
 			this.ct.fillStyle = this.color;
 			
 			for(var i=tmp_len;i>=0;--i) {
 				if(this.trail[i].x < cam.X || this.trail[i].y < cam.Y || this.trail[i].x > (cam.X + WindowWidth) || this.trail[i].y > (cam.Y + WindowHeight)) continue;
-				if((dash && this.isPlayer)||(this.dashboost)) this.flash(i);
+				if((dash && this.isPlayer)||(this.dashboost)) 
+					this.ct.fillStyle = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 				if(i === 0) {
 					// head
 					this.ct.beginPath();
@@ -122,17 +120,6 @@
 					this.ct.closePath();			
 				}
 			}
-		}
-		
-		flash(i) {
-			if(i%100 == 0) ++this.op;
-			if(this.op > 9) this.op = 1;
-			this.ct.fillStyle = this.shineColor;
-			this.ct.beginPath();
-			this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+4,0,circ);
-			this.ct.fill();
-			this.ct.closePath();
-			this.ct.fillStyle = this.color;
 		}
 		
 		/* Move the snake */
