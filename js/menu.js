@@ -25,6 +25,17 @@ function Start() {
 		frame = requestAnimationFrame(menu);
 	})();
 	
+	(function setDefControl() {
+		let selc = document.getElementById('control');
+		selc = selc.querySelectorAll('option');
+		for(let i=0,e = selc.length; i< e;++i) {
+			if(i === controlmode) {
+				selc[i].setAttribute("Selected",'true');
+			}
+		}
+		
+	})();
+	
 	function ChangeGraphics(x) {
 		Hgraphic = parseInt(x.value);
 	}	

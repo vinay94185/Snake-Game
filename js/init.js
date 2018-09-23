@@ -23,7 +23,7 @@ let frame;
 let gameon = false;
 let pattern;
 let running = false;
-let controlmode = 0;
+let controlmode = (WindowWidth < 768) ? 3 : 0;
 	
 function init() {
 	dash = false;
