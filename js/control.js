@@ -107,8 +107,8 @@ function touchstop(touch) {
 /* Mouse Control */
 
 window.addEventListener('mousemove',trackmouse);
-window.addEventListener('mousedown',function() {dash = true;});
-window.addEventListener('mouseup',function() {dash = false;});
+window.addEventListener('mousedown',function() {if(controlmode === 1) dash = true;});
+window.addEventListener('mouseup',function() {if(controlmode === 1) dash = false;});
 
 
 
