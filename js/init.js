@@ -27,6 +27,8 @@ let comp;
 if(WindowHeight > WindowWidth) comp =  WindowWidth;
 else comp = WindowHeight;
 let controlmode = (comp < 768) ? 3 : 0;
+let playerX = 0;
+let playerY = 0;
 	
 function init() {
 	dash = false;

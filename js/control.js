@@ -116,8 +116,10 @@ function trackmouse(m) {
 if(controlmode === 1) {
 		ex = m.clientX;
 		ey = m.clientY;
-		mvx = ((ex - Xcenter)/50);
-		mvy = ((ey - Ycenter)/50);
+		const Xsnake = playerX - cam.X;
+		const Ysnake = playerY - cam.Y;
+		mvx = ((ex - Xsnake)/50);
+		mvy = ((ey - Ysnake)/50);
 		/* to ensure that snake won't go faster than max speed */
 		mvx = (mvx > 1) ? 1 : mvx;
 		mvx = (mvx < -1) ? -1 : mvx;

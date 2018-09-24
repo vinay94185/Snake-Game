@@ -62,7 +62,6 @@ function draw() {
 		ctx.lineWidth = 3;
 		ctx.stroke();
 		ctx.beginPath();
-		
 		ctx.arc(Xctr + (mvx * 40),Yctr + (mvy * 40),10,0,circ);
 		ctx.closePath();
 		ctx.fillStyle = "rgba(255,255,255,0.5)";
