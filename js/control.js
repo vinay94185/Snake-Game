@@ -32,8 +32,8 @@ let sx,sy,
 	Xctr = (WindowWidth * 0.15),
 	Yctr = (WindowHeight * 0.75);
 	
-let mvx = 0,
-	mvy = 0;	
+let mvx = Math.floor(Math.random() - 0.5),
+	mvy = Math.floor(Math.random() - 0.5);	
 let sw_dash = false;
 
 function touchbegin(touch) {
