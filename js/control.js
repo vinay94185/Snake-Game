@@ -60,7 +60,7 @@ function touchbegin(touch) {
 				Xctr = sx;
 				Yctr = sy;
 				moveable = true;
-			} else if((sx > Xcenter) || (sx2 > Xcenter)) {
+			} else if((sx > Xcenter)) {
 				if(gameon&& running) dash = (dash) ? false : true;
 			}
 		}
