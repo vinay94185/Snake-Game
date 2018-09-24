@@ -5,7 +5,7 @@ function ingame() {
 	// show snakes
 	for(sno = 0; sno < smax;++sno) {
 		if(snakes[sno].isPlayer) { 
-		if(controlmode === 3) {
+		if(controlmode === 3 || controlmode === 1) {
 			snakes[sno].moveI(mvx,mvy);
 		} else {
 			snakes[sno].move(playerGo);

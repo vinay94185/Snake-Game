@@ -103,3 +103,25 @@ function touchstop(touch) {
 		else sw_dash = false;
 	}
 }
+
+/* Mouse Control */
+
+window.addEventListener('mousemove',trackmouse);
+window.addEventListener('mousedown',function() {dash = true;});
+window.addEventListener('mouseup',function() {dash = false;});
+
+
+
+function trackmouse(m) {
+if(controlmode === 1) {
+		ex = m.clientX;
+		ey = m.clientY;
+		mvx = ((ex - Xcenter)/50);
+		mvy = ((ey - Ycenter)/50);
+		/* to ensure that snake won't go faster than max speed */
+		mvx = (mvx > 1) ? 1 : mvx;
+		mvx = (mvx < -1) ? -1 : mvx;
+		mvy = (mvy > 1) ? 1 : mvy;	
+		mvy = (mvy < -1) ? -1 : mvy;	
+	}
+}
