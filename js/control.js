@@ -40,8 +40,10 @@ function touchbegin(touch) {
 	if(moveable) {
 		touch.preventDefault()
 		const ss = touch.touches[touch.touches.length-1].pageX;
-		if(gameon && running && (ss > Xcenter)) dash = (dash) ? false : true;
-		sw_dash = true;
+		if(gameon && running && (ss > Xcenter)) {
+			dash = (dash) ? false : true;
+			sw_dash = true;
+		}
 	} else {
 		stime = touch.timeStamp;
 		sx = touch.touches[0].pageX;
@@ -98,5 +100,6 @@ function touchstop(touch) {
 	}
 	} else if(controlmode === 3) {
 		if(!sw_dash) moveable = false;
+		else sw_dash = false;
 	}
 }
