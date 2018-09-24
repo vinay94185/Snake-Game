@@ -24,9 +24,7 @@ let gameon = false;
 let pattern;
 let running = false;
 let comp;
-if(WindowHeight > WindowWidth) comp =  WindowWidth;
-else comp = WindowHeight;
-let controlmode = (comp < 768) ? 3 : 0;
+let controlmode = (WindowWidth < 768) ? 3 : 0;
 let playerX = 0;
 let playerY = 0;
 	
