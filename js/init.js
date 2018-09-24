@@ -23,7 +23,10 @@ let frame;
 let gameon = false;
 let pattern;
 let running = false;
-let controlmode = (WindowWidth < 768) ? 3 : 0;
+let comp;
+if(WindowHeight > WindowWidth) comp =  WindowWidth;
+else comp = WindowHeight;
+let controlmode = (comp < 768) ? 3 : 0;
 	
 function init() {
 	dash = false;
