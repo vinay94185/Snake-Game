@@ -58,13 +58,13 @@ function draw() {
 		ctx.beginPath();
 		ctx.arc(Xctr,Yctr,50,0,circ);
 		ctx.closePath();
-		ctx.strokeStyle = "#ffffffaa";
+		ctx.strokeStyle = "rgba(255,255,255,0.5)";
 		ctx.lineWidth = 3;
 		ctx.stroke();
 		ctx.beginPath();
 		ctx.arc(ex,ey,10,0,circ);
 		ctx.closePath();
-		ctx.fillStyle = "#ffffffaa";
+		ctx.fillStyle = "rgba(255,255,255,0.5)";
 		ctx.fill();
 	}
 }
