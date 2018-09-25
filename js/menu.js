@@ -41,6 +41,7 @@ function Start() {
 	}
 	
 	Start.ChangeControl = ChangeControl;
+	setLastSetting();
 }
 
 /*
@@ -59,6 +60,7 @@ function beginGame() {
 	document.getElementById('name').blur();
 	document.getElementById('num').blur();
 	cancelAnimationFrame(frame);
+	storeSettig(name,smax,controlmode);
 	if(smax < snakes.length) while(snakes.length != smax) snakes.pop();
 	else while(snakes.length != smax) newSnake(false);
 	if(!foodintr) foodintr = setInterval(setfood,1000); 
@@ -72,4 +74,28 @@ function beginGame() {
 	} else {
 		alert('Please Enter Your Name and number of Snake\'s');
 	}
+}
+
+
+// remember last settings 
+function setLastSetting() {
+	if(localStorage.snake !== undefined) {
+	obj = JSON.parse(localStorage.snake);
+	document.getElementById('name').value = obj.name;
+	document.getElementById('num').value = obj.no;
+	controlmode = parseInt(obj.control);
+		let selc = document.getElementById('control');
+		selc = selc.querySelectorAll('option');
+		for(let i=0,e = selc.length; i< e;++i) {
+			if(i === controlmode) {
+				selc[i].setAttribute("Selected",'true');
+			}
+		}	
+		
+	}
+}
+
+
+function storeSettig(name,no,control) {
+	localStorage.snake = '{"name":"'+name+'","no":'+no+',"control":'+control+'}';
 }
