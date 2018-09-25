@@ -153,8 +153,8 @@
 		}
 		
 		act(vx,vy) {
-			this.x += vx;
-			this.y += vy;			
+			this.x += Math.floor(vx);
+			this.y += Math.floor(vy);			
 			// reduce the drawing and x/y cordinates storage load
 			if(GetDistance(this.x,this.y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
 				this.trail[0].x = this.x;
