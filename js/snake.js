@@ -83,7 +83,6 @@
 						this.ct.stroke();
 						this.ct.restore();
 						this.ct.closePath();
-						if(Hgraphic) ct.lineWidth = 1;
 						if(this.eating == 2) {
 							this.eating = 1;
 							if(this.intr != undefined) clearTimeout(this.intr);
@@ -116,7 +115,6 @@
 					this.ct.beginPath();
 					this.ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
 					this.ct.fill();
-					if(Hgraphic) ct.stroke();
 					this.ct.closePath();			
 				}
 			}

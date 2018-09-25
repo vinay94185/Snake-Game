@@ -6,7 +6,6 @@ const mapHeight = 2000;
 let WindowWidth = window.innerWidth;
 let WindowHeight = window.innerHeight;
 const circ = 2*(22/7);
-let Hgraphic = 0;
 let buff;
 let foodbuff;
 let patbuff;
