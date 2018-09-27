@@ -34,10 +34,10 @@
 			this.ct = _ct;
 			this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
 			this.count = 0; //counter for max count
-			this.mv = Math.floor((Math.random() * 4)+1); // random move
-			this.ret = undefined; // returned direction will be stored here
 			this.DirAvoid = true;
 			this.eating = 0;
+			this.mx = (Math.random()*2) - 1;
+			this.my = (Math.random()*2) - 1;
 		
 			/*
 			** Set the Cordinate's of the snake
@@ -124,7 +124,6 @@
 		move(str) {
 			var vx = 0,vy = 0;
 			/* check direction */
-			if(this.isPlayer) this.ret = str;
 			if((dash && this.isPlayer) || this.dashboost) this.loops = 2;
 			else this.loops = 1;
 			
@@ -176,55 +175,34 @@
 			this.ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
 		}			
 		
-			/* Function to move the snake randomly */
-		randMove() {
-			/* 
-			** To make the randomness less aggressive
-			** We only change direction after a certian 
-			** Amount of time has passed.
-			*/
+			/* Function to move the snake randomly */			
+		randMoveI() {
 			if(this.count > this.countMax) {
-				this.mv = Math.floor((Math.random() * 4)+1);
 				this.count = 0;
 				this.DirAvoid = true;
+					this.mx = (Math.random()*2) - 1;
+					this.my = (Math.random()*2) - 1;
+					if(this.mx > this.my) {
+						if(this.mx < 0) this.mx = -1;
+						else this.mx = 1
+					}	else {
+						if(this.my < 0) this.my = -1;
+						else this.my = 1
+					}
+
 			} else { 
 				this.count++;
 			}
-			
-			switch(this.mv) {
-				case 1: this.ret = 'left'; break;
-				case 2: this.ret = 'right'; break;
-				case 3: this.ret = 'up'; break;
-				case 4: this.ret = 'down'; break;
-			} 
-				this.move(this.ret);
-			}
+			this.moveI(this.mx,this.my);			
+		}
 						
 		eat(mass) {
 			this.foodtrack.shift();
 			if(Math.floor((this.score + mass)/15) > Math.floor(this.score/15)) {
-			this.len += 1;
-			this.score += mass;
-			
-			var vx,vy;
-					vx = 0;
-					vy = 0;
-							
-					switch(this.ret) {
-						case 'right': vx = this.speed; break;
-						case 'left': vx = -this.speed; break;
-						case 'up': vy = -this.speed; break;
-						case 'down': vy = this.speed; break;
-					}
-
-				this.trail.unshift(new trail(this.trail[0].x,this.trail[0].y));
-					
-				while(GetDistance(this.trail[0].x,this.trail[0].y,this.trail[0].x,this.trail[0].y) >= this.halfblock) {
-					this.trail[0].x += vx;
-					this.trail[0].y += vy;
-				}
-				
-				} else { this.score += mass; }	
+				this.len += 1;
+				this.score += mass;					
+				this.trail.unshift(new trail(this.trail[0].x,this.trail[0].y));				
+			} else { this.score += mass; }	
 				this.eating = 2;
 		}
 			
@@ -256,12 +234,8 @@
 					return 0;
 			} else {
 				this.DirAvoid = false;
-				switch(this.ret) {
-					case 'left': this.mv = 2; this.ret = 'right'; break;
-					case 'right': this.mv = 1; this.ret = 'left'; break;
-					case 'up': this.mv = 4; this.ret = 'down'; break;
-					case 'down': this.mv = 3; this.ret = 'up'; break;
-				}
+				if(this.mx < 0) this.mx = 1; else this.mx = -1;
+				if(this.my < 0) this.my = 1; else this.my = -1;
 			}
 		}
 			
@@ -306,37 +280,28 @@
 					if(this.oldtime.getMilliseconds() > 950)  {
 						this.oldtime.setMilliseconds(this.oldtime.getMilliseconds()-50)
 					}
-				if(this.foodtrack.length) {
+				if(this.foodtrack.length && (!this.DirAvoid)) {
 					
 				let x = this.foodtrack[0].x;
-				let y = this.foodtrack[0].y;
-				let disX = Math.abs((x - this.x));
-				let disY = Math.abs((y - this.y));
+				let y = this.foodtrack[0].y;				
 				
-				if(disX > disY) {
-					if(x < this.x) {
-						this.ret = 'left';
-					} else if (x > this.x) {
-						this.ret = 'right';
-					}
-				} else {
-					if(y > this.y) {
-						this.ret = 'down';
-					} else if(y < this.y) {
-						this.ret = 'up';
-					}
-				}
+				this.mx = ((x - this.x)/50);
+				this.my = ((y - this.y)/50);
+				this.mx = (this.mx > 0.25) ? 1 : this.mx;
+				this.mx = (this.mx < -0.25) ? -1 : this.mx;
+				this.my = (this.my > 0.25) ? 1 : this.my;	
+				this.my = (this.my < -0.25) ? -1 : this.my;	
 				
 				if(GetDistance(x,y,this.foodtrack[0].x,this.foodtrack[0].y) <= 20) {
 					this.foodtrack.shift();
 				}
 
-				this.move(this.ret);
+					this.moveI(this.mx,this.my);
 				} else {
-				this.randMove();
+					this.randMoveI();
 				}
 				} else {
-					this.move(this.ret);
+					this.moveI(this.mx,this.my);
 				}
 			}
 	} // end snake object

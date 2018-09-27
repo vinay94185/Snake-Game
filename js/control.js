@@ -38,7 +38,7 @@ let sw_dash = false;
 
 function touchbegin(touch) {
 	if(moveable) {
-		touch.preventDefault()
+		touch.preventDefault();
 		const ss = touch.touches[touch.touches.length-1].pageX;
 		if(gameon && running && (ss > Xcenter)) {
 			dash = (dash) ? false : true;

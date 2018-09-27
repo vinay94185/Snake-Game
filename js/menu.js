@@ -19,7 +19,7 @@ function Start() {
 	(function menu() {
 		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
 		for(var i=0; i<MaxSnakes;++i) {
-			snakes[i].randMove(); // Make a random move
+			snakes[i].randMoveI(); // Make a random move
 		}
 		draw();
 		frame = requestAnimationFrame(menu);
