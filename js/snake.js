@@ -45,14 +45,8 @@
 			*/
 			for(var i = 0;i<this.len;++i) {
 				this.trail[i] = new trail();
-				if(i) {
-					while(GetDistance(this.x,this.y,this.trail[i-1].x,this.trail[i-1].y) >= this.halfblock) {
-						++x;		
-					}
-				}
 				this.trail[i].x = x;
-				this.trail[i].y = y;
-				
+				this.trail[i].y = y;				
 			}
 			
 		}
