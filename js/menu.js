@@ -6,9 +6,10 @@ function Start() {
 	** MAIN GAME CODE ** 
 	********************/
 	
-	var x,y,len; // will be used initilize snake's position's
+	let x,y,len; // will be used initilize snake's position's
 	const MaxSnakes = 15; // max number of snake's on menu
-	for(var i = 0;i<MaxSnakes ;++i) {
+	
+	for(let i = 0;i<MaxSnakes ;++i) {
 		newSnake(false);
 	}
 	
@@ -18,7 +19,7 @@ function Start() {
 	/* Menu for the Game */
 	(function menu() {
 		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
-		for(var i=0; i<MaxSnakes;++i) {
+		for(let i=0; i<MaxSnakes;++i) {
 			snakes[i].randMoveI(); // Make a random move
 		}
 		draw();
@@ -53,6 +54,10 @@ let sno = 0;
 let foodintr = null;
 
 function beginGame() {
+	if(running) {
+		running = false;
+		document.getElementsByClassName('form')[0].style.display = 'block';
+	} else {
 	if(document.getElementById('name').value != '' && document.getElementById('num').value != '') {
 	document.getElementsByClassName('form')[0].style.display = 'none';
 	name = document.getElementById('name').value;
@@ -73,6 +78,7 @@ function beginGame() {
 	ingame();
 	} else {
 		alert('Please Enter Your Name and number of Snake\'s');
+	}
 	}
 }
 
