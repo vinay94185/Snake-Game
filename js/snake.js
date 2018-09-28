@@ -174,16 +174,17 @@
 			if(this.count > this.countMax) {
 				this.count = 0;
 				this.DirAvoid = true;
-					this.mx = (Math.random()*2) - 1;
-					this.my = (Math.random()*2) - 1;
-					if(this.mx > this.my) {
-						if(this.mx < 0) this.mx = -1;
-						else this.mx = 1
-					}	else {
-						if(this.my < 0) this.my = -1;
-						else this.my = 1
-					}
-
+				this.mxy = Math.floor(Math.random() * 8);
+				switch(this.mxy) {
+					case 0: this.mx = 0; this.my = -1; break;
+					case 1: this.mx = 0.5; this.my = -0.5; break;
+					case 2: this.mx = 1; this.my = 0; break;
+					case 3: this.mx = 0.5; this.my = 0.5; break;
+					case 4: this.mx = 0; this.my = 1; break;
+					case 5: this.mx = -0.5; this.my = 0.5; break;
+					case 6: this.mx = -1; this.my = 0; break;
+					case 7: this.mx = -0.5; this.my = -0.5; break;
+				}
 			} else { 
 				this.count++;
 			}
