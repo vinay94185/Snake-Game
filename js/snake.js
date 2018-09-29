@@ -323,8 +323,8 @@ class snake {
 //functions
 
 function newSnake(isPlayer) {
-	x = Math.floor(Math.random() * mapWidth);
-	y = Math.floor(Math.random() * mapHeight);
+	x = Math.floor(Math.random() * (mapWidth - 500)) + 250;
+	y = Math.floor(Math.random() * (mapHeight - 500)) + 250;
 	len = Math.floor((Math.random() * 20) + 10);
 	snakes.push(new snake(x,y,len,isPlayer,ct)); // make snake object
 }
