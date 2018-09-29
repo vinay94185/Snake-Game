@@ -54,7 +54,7 @@ let sno = 0;
 let foodintr = null;
 
 function beginGame() {
-	if(running) {
+	if(running && (!gameon)) {
 		running = false;
 		document.getElementsByClassName('form')[0].style.display = 'block';
 	} else {
