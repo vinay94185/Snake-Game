@@ -229,8 +229,27 @@ class snake {
 				return 0;
 		} else {
 			this.DirAvoid = false;
-			if(this.mx < 0) this.mx = 1; else this.mx = -1;
-			if(this.my < 0) this.my = 1; else this.my = -1;
+			this.avoids = Math.floor(Math.random() * 4);
+			switch(this.avoids) {
+				case 0:
+					if(this.mx < 0) this.mx = 1; else this.mx = -1;
+					if(this.my < 0) this.my = 1; else this.my = -1;
+				break;
+				case 1:
+					if(this.mx > this.my)
+						if(this.mx < 0) this.my = 1; else this.my = -1;
+					else
+						if(this.my < 0) this.mx = 1; else this.mx = -1;
+				break;
+				case 2:
+					if(this.mx < 0) this.mx = 0.5,this.my = 0.5; else this.mx = -0.5,this.my = -0.5;
+					if(this.my < 0) this.my = 0.5,this.mx = -0.5; else this.my = -0.5, this.mx = 0.5;
+				break;
+				case 3:
+					if(this.mx < 0) this.mx = 0.5,this.my = -0.5; else this.mx = -0.5,this.my = 0.5;
+					if(this.my < 0) this.my = 0.5,this.mx = 0.5; else this.my = -0.5, this.mx = -0.5;
+				break;
+			}
 		}
 	}
 		
