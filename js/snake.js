@@ -132,7 +132,7 @@ class snake {
 			case 'down': vy = this.speed; break;
 		}
 		
-		for(let loop=0;loop<this.loops;++loop) {
+		for(var loop=0;loop<this.loops;++loop) {
 			this.act(vx,vy);
 		}
 	}
@@ -144,7 +144,7 @@ class snake {
 		let vx = this.speed * x;
 		let vy = this.speed * y;
 
-		for(let loop=0;loop<this.loops;++loop) {
+		for(var loop=0;loop<this.loops;++loop) {
 			this.act(vx,vy);
 		}
 	}
@@ -208,7 +208,7 @@ class snake {
 	colliide(others) {
 		if((this.x > mapWidth) || (this.x < 0) || (this.y > mapHeight) || (this.y < 0)) return true;
 		if((this.x > (mapWidth-20)) || (this.x < 20) || (this.y > (mapHeight-20)) || (this.y < 20)) this.avoid();
-		for(let i=0,n = others.length;i<n;++i) {
+		for(var i=0,n = others.length;i<n;++i) {
 			const ret = Checktrail(this.trail[0],others[i].trail,this.block + others[i].block);
 			if(this === others[i]) continue;
 			if(ret === 1) {
@@ -221,11 +221,11 @@ class snake {
 	}
 		
 	die() {
-		this.trail.forEach (trail => {
-			const x = Math.floor(trail.x + (Math.random() * this.block));
-			const y = Math.floor(trail.y + (Math.random() * this.block));
+		for(var i=0,end = this.trail.length;i<end;++i) {
+			const x = Math.floor(this.trail[i].x + (Math.random() * this.block));
+			const y = Math.floor(this.trail[i].y + (Math.random() * this.block));
 			setfood(x,y);
-		});
+		}
 
 	}
 	avoid() {
@@ -267,7 +267,7 @@ class snake {
 	eatlist(x,y) {
 		if(!this.isPlayer)  {
 		let alreadyin = false;
-		for(let i=0,max = this.foodtrack.length;i<max;++i) {
+		for(var i=0,max = this.foodtrack.length;i<max;++i) {
 			if(this.foodtrack[i].x == x && this.foodtrack[i].y == y) {
 				alreadyin = true;
 				break;

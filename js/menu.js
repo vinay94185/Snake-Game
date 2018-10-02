@@ -91,7 +91,7 @@ function setLastSetting() {
 	controlmode = parseInt(obj.control);
 		let selc = document.getElementById('control');
 		selc = selc.querySelectorAll('option');
-		for(let i=0,e = selc.length; i< e;++i) {
+		for(var i=0,e = selc.length; i< e;++i) {
 			if(i === controlmode) {
 				selc[i].setAttribute("Selected",'true');
 			}

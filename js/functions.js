@@ -14,7 +14,7 @@ function getAngle(last_x,last_y,new_x,new_y) {
 // check the whole trail for collision
 function Checktrail(me,oth,block) {
 	let colstate = 0;
-	for(let i=0,n = oth.length;i!=n;++i) {
+	for(var i=0,n = oth.length;i!=n;++i) {
 		const dist = GetDistance(me.x,me.y,oth[i].x,oth[i].y) - block;
 		if(dist <= 0) {	// colided
 			colstate = 1;
