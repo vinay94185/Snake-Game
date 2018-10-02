@@ -60,9 +60,6 @@ let scy; // screen y position
 let scx; // screen x position
 
 function draw() {
-	ctx.clearRect(0,0,WindowWidth,WindowHeight);
-	ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
-
 	//display background pattren
 	if(resloaded) {
 		startX = Math.floor(cam.X/bgwidth);

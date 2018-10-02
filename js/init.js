@@ -6,8 +6,6 @@ const mapHeight = 2000;
 let WindowWidth = window.innerWidth;
 let WindowHeight = window.innerHeight;
 const circ = 2*(22/7);
-let buff;
-let ct;
 let resloaded = false;
 let bgimg = new Image();	
 let bgwidth,bgheight;
@@ -47,10 +45,4 @@ function init() {
 		resloaded = true;
 	}
 	bgimg.src = './data/square.png';	
-	
-	// Adding Buffer
-	buff = document.createElement('canvas');
-	buff.width = mapWidth;
-	buff.height = mapHeight;
-	ct = buff.getContext('2d');
 }

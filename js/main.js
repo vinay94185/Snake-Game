@@ -1,6 +1,6 @@
 function ingame() {
 	++frames;
-	ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
+	ctx.clearRect(0,0,WindowWidth,WindowHeight);
 	
 	// show snakes
 	for(sno = 0; sno < smax;++sno) {

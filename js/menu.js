@@ -18,7 +18,7 @@ function Start() {
 	
 	/* Menu for the Game */
 	(function menu() {
-		ct.clearRect(cam.X,cam.Y,WindowWidth,WindowHeight);
+		ctx.clearRect(0,0,WindowWidth,WindowHeight);
 		for(let i=0; i<MaxSnakes;++i) {
 			snakes[i].randMoveI(); // Make a random move
 		}

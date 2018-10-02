@@ -57,19 +57,23 @@ class snake {
 		
 		for(var i=tmp_len;i>=0;--i) {
 			if(this.trail[i].x < cam.X || this.trail[i].y < cam.Y || this.trail[i].x > (cam.X + WindowWidth) || this.trail[i].y > (cam.Y + WindowHeight)) continue;
+			else {
+				this.brushX = this.trail[i].x - cam.X;
+				this.brushY = this.trail[i].y - cam.Y;
+			}
 			if((dash && this.isPlayer)||(this.dashboost)) 
 				this.ct.fillStyle = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 			if(i === 0) {
 				// head
 				this.ct.beginPath();
-				this.ct.arc(this.trail[i].x,this.trail[i].y,this.block+1,0,circ);
+				this.ct.arc(this.brushX,this.brushY,this.block+1,0,circ);
 				this.ct.fill();
 				this.ct.closePath();
 				//Mouth
 				if(this.eating) {
 					this.ct.beginPath();
 					this.ct.save();
-					this.ct.translate(this.trail[0].x,this.trail[0].y);
+					this.ct.translate(this.brushX,this.brushY);
 					this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));						
 					this.ct.arc(0,0,this.block-3,Math.PI * 0.5,Math.PI * 1.5);
 					this.ct.lineWidth = 5;
@@ -87,7 +91,7 @@ class snake {
 				this.ct.beginPath();
 				this.ct.fillStyle = "white";
 				this.ct.save();
-				this.ct.translate(this.trail[0].x,this.trail[0].y);
+				this.ct.translate(this.brushX,this.brushY);
 				this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));
 				this.ct.arc(0,5,4,0,circ);
 				this.ct.arc(0,-5,4,0,circ);
@@ -98,7 +102,7 @@ class snake {
 				this.ct.beginPath();
 				this.ct.fillStyle = "black";
 				this.ct.save();
-				this.ct.translate(this.trail[0].x,this.trail[0].y);
+				this.ct.translate(this.brushX,this.brushY);
 				this.ct.rotate(getAngle(this.trail[5].x,this.trail[5].y,this.trail[0].x,this.trail[0].y));
 				this.ct.arc(-2,5,2,0,circ);
 				this.ct.arc(-2,-5,2,0,circ);
@@ -107,7 +111,7 @@ class snake {
 				this.ct.closePath();
 			} else {
 				this.ct.beginPath();
-				this.ct.arc(this.trail[i].x,this.trail[i].y,this.block,0,circ);
+				this.ct.arc(this.brushX,this.brushY,this.block,0,circ);
 				this.ct.fill();
 				this.ct.closePath();			
 			}
@@ -166,7 +170,7 @@ class snake {
 	name(name) {
 		this.ct.font = "20px Arial";
 		this.ct.fillStyle = "#000000";
-		this.ct.fillText(name,this.trail[0].x+10,this.trail[0].y);
+		this.ct.fillText(name,this.brushX+10,this.brushY);
 	}			
 	
 		/* Function to move the snake randomly */			
@@ -326,5 +330,5 @@ function newSnake(isPlayer) {
 	x = Math.floor(Math.random() * (mapWidth - 500)) + 250;
 	y = Math.floor(Math.random() * (mapHeight - 500)) + 250;
 	len = Math.floor((Math.random() * 20) + 10);
-	snakes.push(new snake(x,y,len,isPlayer,ct)); // make snake object
+	snakes.push(new snake(x,y,len,isPlayer,ctx)); // make snake object
 }
