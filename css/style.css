@@ -85,12 +85,6 @@
     font-size: 12px;
 	text-align:center;
 }
-#Background {
-	z-index:0;
-}
-#gameBackground {
-	z-index:1;
-}
 #gameScreen {
 	z-index:2;
 }

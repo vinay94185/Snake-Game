@@ -73,7 +73,7 @@ function draw() {
 			scy = (i - startY)* bgheight - offsetY;
 			for(var j=startX;j< endX;++j) {
 				scx = (j - startX) * bgwidth - offsetX;
-				bpx.drawImage(bgcanv,scx,scy,bgwidth,bgheight);
+				ctx.drawImage(bgcanv,scx,scy,bgwidth,bgheight);
 			}
 		}
 	} 
@@ -81,16 +81,16 @@ function draw() {
 	for(var foods = 0,foode = edible.length;foods < foode;++foods) {
 		if( (edible[foods].x < (cam.X + WindowWidth) && (edible[foods].x > cam.X))&& 
 			(edible[foods].y < (cam.Y + WindowHeight) && (edible[foods].y > cam.Y)) ) {
-			bpx.fillStyle = edible[foods].color;
-			bpx.strokeStyle = edible[foods].color;
-			bpx.lineWidth = 2;
-			bpx.beginPath();
-			bpx.arc(edible[foods].x - cam.X,edible[foods].y - cam.Y,edible[foods].mass,0,circ);
-			bpx.stroke();
-			bpx.globalAlpha = 0.5;
-			bpx.fill();
-			bpx.globalAlpha = 1;
-			bpx.closePath();
+			ctx.fillStyle = edible[foods].color;
+			ctx.strokeStyle = edible[foods].color;
+			ctx.lineWidth = 2;
+			ctx.beginPath();
+			ctx.arc(edible[foods].x - cam.X,edible[foods].y - cam.Y,edible[foods].mass,0,circ);
+			ctx.stroke();
+			ctx.globalAlpha = 0.5;
+			ctx.fill();
+			ctx.globalAlpha = 1;
+			ctx.closePath();
 			
 		}
 	}
@@ -118,8 +118,6 @@ function screenChange() {
 	WindowHeight = window.innerHeight;
 	Screen.width = WindowWidth;
 	Screen.height = WindowHeight;
-	patBack.height = WindowHeight;
-	patBack.width = WindowWidth;
 	Xcenter = window.innerWidth/2;
 	Ycenter = window.innerHeight/2;
 }

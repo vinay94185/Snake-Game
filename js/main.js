@@ -1,6 +1,6 @@
 function ingame() {
 	++frames;
-	ctx.clearRect(0,0,WindowWidth,WindowHeight);
+	draw();
 	
 	// show snakes
 	for(sno = 0; sno < smax;++sno) {
@@ -50,7 +50,6 @@ function ingame() {
 			}
 	}	
 	
-	draw();
 	displayScore();
 	if(!gameon) gameover();
 	frame = requestAnimationFrame(ingame);		

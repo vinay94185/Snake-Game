@@ -18,11 +18,10 @@ function Start() {
 	
 	/* Menu for the Game */
 	(function menu() {
-		ctx.clearRect(0,0,WindowWidth,WindowHeight);
+		draw();
 		for(let i=0; i<MaxSnakes;++i) {
 			snakes[i].randMoveI(); // Make a random move
 		}
-		draw();
 		frame = requestAnimationFrame(menu);
 	})();
 	
