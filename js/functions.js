@@ -81,8 +81,7 @@ function draw() {
 	for(var foods = 0,foode = edible.length;foods < foode;++foods) {
 		if( (edible[foods].x < (cam.X + WindowWidth) && (edible[foods].x > cam.X))&& 
 			(edible[foods].y < (cam.Y + WindowHeight) && (edible[foods].y > cam.Y)) ) {
-			ctx.fillStyle = edible[foods].color;
-			ctx.strokeStyle = edible[foods].color;
+			ctx.fillStyle = ctx.strokeStyle = edible[foods].color;
 			ctx.lineWidth = 2;
 			ctx.beginPath();
 			ctx.arc(edible[foods].x - cam.X,edible[foods].y - cam.Y,edible[foods].mass,0,circ);
