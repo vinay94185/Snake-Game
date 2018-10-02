@@ -29,11 +29,11 @@ function Checktrail(me,oth,block) {
 	
 function setfood(x = 0,y = 0) {
 	if(x+y != 0) {			
-		edible.push(new food(x,y,bp));
+		edible.push(new food(x,y));
 	} else {
 		x = Math.floor((Math.random() * mapWidth));
 		y = Math.floor((Math.random() * mapHeight));
-		edible.push(new food(x,y,bp));
+		edible.push(new food(x,y));
 	}
 }	
 	
@@ -50,10 +50,55 @@ function displayScore() {
 	ctx.fillText('fps : ' + fps,WindowWidth - 100,50);
 }
 
+let startX; // first tile X position
+let endX; // last tile to be drawn
+let startY;
+let endY;
+let offsetX; // amout of tile to be clipped
+let offsetY; 
+let scy; // screen y position
+let scx; // screen x position
+
 function draw() {
 	ctx.clearRect(0,0,WindowWidth,WindowHeight);
 	ctx.drawImage(buff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
-	bpx.drawImage(patbuff,cam.X,cam.Y,WindowWidth,WindowHeight,0,0,WindowWidth,WindowHeight);
+
+	//display background pattren
+	if(resloaded) {
+		startX = Math.floor(cam.X/bgwidth);
+		endX = startX + (WindowWidth/bgwidth)+1;
+		startY = Math.floor(cam.Y/bgwidth);
+		endY = startY + (WindowHeight/bgheight)+1;
+		offsetX = (cam.X % bgwidth);
+		offsetY = (cam.Y % bgheight);
+		
+		for(var i=startY;i< endY;++i) {
+			scy = (i - startY)* bgheight - offsetY;
+			for(var j=startX;j< endX;++j) {
+				scx = (j - startX) * bgwidth - offsetX;
+				bpx.drawImage(bgcanv,scx,scy,bgwidth,bgheight);
+			}
+		}
+	} 
+	
+	for(var foods = 0,foode = edible.length;foods < foode;++foods) {
+		if( (edible[foods].x < (cam.X + WindowWidth) && (edible[foods].x > cam.X))&& 
+			(edible[foods].y < (cam.Y + WindowHeight) && (edible[foods].y > cam.Y)) ) {
+			bpx.fillStyle = edible[foods].color;
+			bpx.strokeStyle = edible[foods].color;
+			bpx.lineWidth = 2;
+			bpx.beginPath();
+			bpx.arc(edible[foods].x - cam.X,edible[foods].y - cam.Y,edible[foods].mass,0,circ);
+			bpx.stroke();
+			bpx.globalAlpha = 0.5;
+			bpx.fill();
+			bpx.globalAlpha = 1;
+			bpx.closePath();
+			
+		}
+	}
+	
+	// display controls
 	if(controlmode === 3 && moveable) {
 		ctx.beginPath();
 		ctx.arc(Xctr,Yctr,50,0,circ);

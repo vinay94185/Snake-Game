@@ -40,7 +40,6 @@ function ingame() {
 			const dis = GetDistance(snakes[sno].x,snakes[sno].y,edible[i].x,edible[i].y);
 			if(dis <= 20) {
 					snakes[sno].eat(edible[i].mass);
-					edible[i].clear();
 					edible.splice(i,1);
 					n = edible.length;
 					break;

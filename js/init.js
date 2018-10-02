@@ -7,10 +7,10 @@ let WindowWidth = window.innerWidth;
 let WindowHeight = window.innerHeight;
 const circ = 2*(22/7);
 let buff;
-let foodbuff;
-let patbuff;
-let ct,bg,bp;
-let backgroundImage = new Image();	
+let ct;
+let resloaded = false;
+let bgimg = new Image();	
+let bgwidth,bgheight;
 let img = new Image();	
 let Screen,Back,patBack;
 let ctx,bgx,bpx;
@@ -36,24 +36,21 @@ function init() {
 	patBack.height = WindowHeight;
 	patBack.width = WindowWidth;
 	ctx = Screen.getContext("2d");
-	bpx = patBack.getContext("2d", { alpha: false });
-	
-	backgroundImage.src = './data/square.png';	
+	bpx = patBack.getContext("2d",{alpha:false});
+	bgimg.onload = () => {
+		bgwidth = bgimg.naturalWidth;
+		bgheight = bgimg.naturalHeight;
+		window.bgcanv = document.createElement('canvas');
+		bgcanv.height = bgheight;
+		bgcanv.width = bgwidth;
+		bgcanv.getContext('2d',{alpha:false}).drawImage(bgimg,0,0,bgheight,bgwidth);
+		resloaded = true;
+	}
+	bgimg.src = './data/square.png';	
 	
 	// Adding Buffer
 	buff = document.createElement('canvas');
-	patbuff = document.createElement('canvas');
 	buff.width = mapWidth;
 	buff.height = mapHeight;
-	patbuff.width = mapWidth;
-	patbuff.height = mapHeight;
 	ct = buff.getContext('2d');
-	bp = patbuff.getContext('2d');
-	
-	//put background on map
-	backgroundImage.onload = () => {
-		pattern = bp.createPattern(backgroundImage, 'repeat');
-		bp.fillStyle = pattern;
-		bp.fillRect(0,0,mapWidth,mapHeight);
-	}
 }
