@@ -1,8 +1,8 @@
 window.addEventListener("load",init);
 
 let dash;
-const mapWidth = 2000;
-const mapHeight = 2000;
+const mapWidth = 6000;
+const mapHeight = 6000;
 let WindowWidth = window.innerWidth;
 let WindowHeight = window.innerHeight;
 const circ = 2*(22/7);
