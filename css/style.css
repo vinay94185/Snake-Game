@@ -15,7 +15,7 @@
 	top:50%;
 	background:#fafafa;
 	border:1px solid #494949;
-	transform:translateY(-50%);
+	transform:rotateY(0deg) translateY(-50%);
 	position:fixed;
 	left:0;
 	right:0;
@@ -24,6 +24,7 @@
 	height:300px;
 	padding-top:50px;
 	z-index:3;
+	transition:1s transform;
 }
 
 .form .btnStyle {
@@ -85,6 +86,45 @@
     font-size: 12px;
 	text-align:center;
 }
+
+.form .set_button {
+	display:block;
+	text-align:center;
+	text-decoration:none;
+	width:250px;
+	margin:5px auto;
+	margin-bottom:15px;
+	box-sizing:border-box;
+	padding:6px;
+	background:grey;
+	color:white;
+}
+
 #gameScreen {
 	z-index:2;
+}
+
+.form .front {
+	padding-top:25px;
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+}
+
+.form .back {
+	position:absolute;
+	top:0;
+	left:0;
+	width:100%;
+	height:100%;
+	display:none;
+}
+
+.form .back #return {
+    float: right;
+    background-color: #f3f3f3;
+    border: solid #494949 1px;
+    padding: 4px 18px;
 }

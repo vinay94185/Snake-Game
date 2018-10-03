@@ -1,4 +1,4 @@
-window.addEventListener("load",Start);
+ window.addEventListener("load",Start);
 
 function Start() {	
 	
@@ -103,4 +103,25 @@ function setLastSetting() {
 
 function storeSettig(name,no,control) {
 	localStorage.snake = '{"name":"'+name+'","no":'+no+',"control":'+control+'}';
+}
+
+
+function fliptosetting(that) {
+	if(fliptosetting.status === undefined || fliptosetting.status === false)
+		fliptosetting.status = true;
+	else fliptosetting.status = false;
+	let front;
+	let back;
+	if(fliptosetting.status === true) {
+		front = that.parentElement;
+		back = front.nextElementSibling;
+	} else {
+		front = that.parentElement;
+		back = front.previousElementSibling;
+	}
+	that = front.parentElement;
+	front.style.display = "none";	
+	if(fliptosetting.status === true) that.style.transform = "rotateY(360deg) translateY(-50%)";
+	else that.style.transform = "rotateY(0deg) translateY(-50%)";
+	back.style.display = "block";
 }
