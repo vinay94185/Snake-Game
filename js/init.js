@@ -22,6 +22,7 @@ let comp;
 let controlmode = (WindowWidth < 768) ? 3 : 0;
 let playerX = 0;
 let playerY = 0;
+let color = "Random Color";
 	
 function init() {
 	dash = false;

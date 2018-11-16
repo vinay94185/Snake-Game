@@ -26,9 +26,8 @@ function Checktrail(me,oth,block) {
 	return colstate;
 }
 	
-	
 function setfood(x = 0,y = 0) {
-	if(x+y != 0) {			
+	if(x+y != 0) {
 		edible.push(new food(x,y));
 	} else {
 		x = Math.floor((Math.random() * mapWidth));

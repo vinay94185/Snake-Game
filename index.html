@@ -33,12 +33,19 @@
 <option value="3" >Analogue Stick & Touch</option>
 </select>
 </div>
-<a href="javascript:void(0);" onclick="fliptosetting(this);"  class="set_button" > Settings </a>
+<a href="javascript:void(0);" onclick="fliptosetting(this);"  class="set_button" > Player Settings </a>
 <input type="button" class="btnStyle" value="Start" > 
 <p class="ins" > Developed By : Vinay </p>
 </div> <!-- front end  -->
 <div class="back" ><!-- back -->
-<input id="return" type="button" value="return" onclick="fliptosetting(this);" />
+<input id="return" type="button" value="return" onclick="fliptosetting(this);" /><br>
+<h1> Settings </h1>
+<div class="container" >
+<label for="color" > Color : </label>
+<select id="color" onchange="color_selected(this)"  >
+<option selected> Random Color </option>
+</select>
+</div>
 </div><!-- back end -->
 </div>
 </body>

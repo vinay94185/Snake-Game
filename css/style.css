@@ -128,3 +128,25 @@
     border: solid #494949 1px;
     padding: 4px 18px;
 }
+
+.form .back .container {
+    width: 65%;
+    margin: auto;
+	margin-top:40px;
+}
+
+.form .back .container label {
+	display:inline-block;
+	width:29%;	
+}
+.form .back .container select {
+	display:inline-block;
+	width:69%;
+}
+
+.form .back h1::before,
+.form .back h1::after {
+	content:"";
+	clear:both;
+	display:table;
+}

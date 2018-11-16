@@ -48,7 +48,7 @@ function ingame() {
 					snakes[sno].eatlist(edible[i].x,edible[i].y);
 				}
 			}
-	}	
+	}
 	
 	displayScore();
 	if(!gameon) gameover();

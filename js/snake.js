@@ -9,12 +9,12 @@ let Snakecolors = [
 	"#FE7F2D",
 	"#12403E"
 ];
+
 // A Structure to store x and y cordnate's effectively
 function trail(x = 0, y = 0) {
 	this.x = x;
 	this.y = y;
 }
-
 		
 // Snake Object Defination
 class snake {
@@ -28,8 +28,13 @@ class snake {
 		this.len = len; // length of tail in begnining
 		this.block = 9; // size of snake block's
 		this.halfblock = Math.floor(this.block/2);
-		this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
 		this.isPlayer = isPlayer;
+		if(this.isPlayer == true && color != "Random Color") {
+			console.log(color);
+			this.color = color;
+		} else {
+			this.color = Snakecolors[Math.floor(Math.random() * Snakecolors.length)];
+		}
 		this.dashboost = false;
 		this.ct = _ct;
 		this.countMax = (Math.random() * 60)+40; //  amout of time it before snake changes direction
@@ -228,6 +233,7 @@ class snake {
 		}
 
 	}
+	
 	avoid() {
 		if(this.isPlayer) {
 				return 0;
@@ -301,13 +307,13 @@ class snake {
 			if(this.foodtrack.length && (!this.DirAvoid)) {
 				
 			let x = this.foodtrack[0].x;
-			let y = this.foodtrack[0].y;				
+			let y = this.foodtrack[0].y;
 			
 			this.mx = ((x - this.x)/50);
 			this.my = ((y - this.y)/50);
 			this.mx = (this.mx > 0.25) ? 1 : this.mx;
 			this.mx = (this.mx < -0.25) ? -1 : this.mx;
-			this.my = (this.my > 0.25) ? 1 : this.my;	
+			this.my = (this.my > 0.25) ? 1 : this.my;
 			this.my = (this.my < -0.25) ? -1 : this.my;	
 			
 			if(GetDistance(x,y,this.foodtrack[0].x,this.foodtrack[0].y) <= 20) {
@@ -323,9 +329,8 @@ class snake {
 			}
 		}
 } // end snake object
-	
-//functions
 
+//functions
 function newSnake(isPlayer) {
 	x = Math.floor(Math.random() * (mapWidth - 500)) + 250;
 	y = Math.floor(Math.random() * (mapHeight - 500)) + 250;
